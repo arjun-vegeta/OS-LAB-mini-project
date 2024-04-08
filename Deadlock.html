@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Deadlock Detection</title>
+<link rel="icon" href="https://sme.nitk.ac.in/assets/images/1.png" type="image/png">
+<style>
+    body {
+        font-family: Arial, sans-serif;
+    }
+    .container {
+        max-width: 500px;
+        margin: 0 auto;
+        padding: 20px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        background-color: #f9f9f9;
+    }
+    label {
+        display: block;
+        margin-bottom: 5px;
+    }
+    input[type="number"] {
+        width: 100%;
+        padding: 8px;
+        margin-bottom: 10px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        box-sizing: border-box;
+    }
+    button {
+        width: 100%;
+        padding: 10px;
+        background-color: #4CAF50;
+        color: white;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+    }
+    button:hover {
+        background-color: #45a049;
+    }
+    #result {
+        margin-top: 20px;
+    }
+    .matrix-container {
+        margin-top: 10px;
+    }
+    .matrix-row {
+        display: flex;
+        margin-bottom: 5px;
+    }
+    .matrix-input {
+        width: 50px;
+        margin-right: 5px;
+    }
+
+    /* For screens smaller than 600px (phones) */
+    @media only screen and (max-width: 600px) {
+        .container {
+            width: 90%;
+        }
+        .matrix-input {
+            width: 30px;
+        }
+    }
+
+    /* For screens between 600px and 900px (tablets) */
+    @media only screen and (min-width: 601px) and (max-width: 900px) {
+        .container {
+            width: 70%;
+        }
+        .matrix-input {
+            width: 40px;
+        }
+    }
+
+    /* For screens larger than 900px (desktops) */
+    @media only screen and (min-width: 901px) {
+        .container {
+            width: 500px; /* Keeping the original width for desktops */
+        }
+    }
+</style>
+</head>
+<body>
+
+        <a href="https://arjun-vegeta.github.io/OS-LAB-mini-project/" style="position: absolute; top: 20px; left: 20px; text-decoration: none; color: #000;">
+        <!-- SVG for back button -->
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M19 12H6.414l3.293-3.293a1 1 0 0 0-1.414-1.414l-5 5a1 1 0 0 0 0 1.414l5 5a1 1 0 0 0 1.414-1.414L6.414 14H19a1 1 0 0 0 0-2z"/>
+        </svg>
+    </a>
+    
+<div class="container">
+    <h2>Deadlock Detection</h2>
+    <label for="processes">Number of Processes:</label>
+    <input type="number" id="processes">
+    <label for="resources">Number of Resources:</label>
+    <input type="number" id="resources">
+
+    <div class="matrix-container">
+        <h3>Allocation Matrix:</h3>
+        <div id="allocation"></div>
+    </div>
+
+    <div class="matrix-container">
+        <h3>Request Matrix:</h3>
+        <div id="request"></div>
+    </div>
+
+    <h3>Available Resources:</h3>
+    <div id="available"></div>
+
+    <button onclick="checkDeadlock()">Check Deadlock</button>
+
+    <div id="result"></div>
+</div>
+
+<script>
+    function createMatrixInput(rows, cols, containerId, labelPrefix) {
+        var container = document.getElementById(containerId);
+        container.innerHTML = '';
+        for (var i = 0; i < rows; i++) {
+            var rowLabel = document.createElement('label');
+            rowLabel.textContent = labelPrefix + (i + 1) + ':';
+            container.appendChild(rowLabel);
+            var rowDiv = document.createElement('div');
+            rowDiv.className = 'matrix-row';
+            for (var j = 0; j < cols; j++) {
+                var input = document.createElement('input');
+                input.type = 'number';
+                input.className = 'matrix-input';
+                rowDiv.appendChild(input);
+            }
+            container.appendChild(rowDiv);
+        }
+    }
+
+    function checkDeadlock() {
+        var processes = parseInt(document.getElementById('processes').value);
+        var resources = parseInt(document.getElementById('resources').value);
+        var allocation = [];
+        var request = [];
+        var available = [];
+
+        // Read allocation matrix
+        var allocationInputs = document.querySelectorAll('#allocation .matrix-row');
+        allocationInputs.forEach(function(row) {
+            var rowData = [];
+            row.querySelectorAll('.matrix-input').forEach(function(input) {
+                rowData.push(parseInt(input.value));
+            });
+            allocation.push(rowData);
+        });
+
+        // Read request matrix
+        var requestInputs = document.querySelectorAll('#request .matrix-row');
+        requestInputs.forEach(function(row) {
+            var rowData = [];
+            row.querySelectorAll('.matrix-input').forEach(function(input) {
+                rowData.push(parseInt(input.value));
+            });
+            request.push(rowData);
+        });
+
+        // Read available resources
+        var availableInputs = document.querySelectorAll('#available input');
+        availableInputs.forEach(function(input) {
+            available.push(parseInt(input.value));
+        });
+
+        // Perform deadlock detection using Banker's algorithm
+        var resultDiv = document.getElementById('result');
+        var safeSequence = findSafeSequence(allocation, request, available);
+        if (safeSequence.length === processes) {
+            resultDiv.innerHTML = 'No deadlock detected. Safe sequence: ' + safeSequence.join(', ');
+        } else {
+            resultDiv.innerHTML = 'Deadlock detected. No safe sequence.';
+        }
+    }
+
+    function findSafeSequence(allocation, request, available) {
+        var processes = allocation.length;
+        var resources = available.length;
+        var work = available.slice(); // Copy available resources
+        var finish = new Array(processes).fill(false); // Initially, no process is finished
+        var safeSequence = [];
+        var count = 0;
+
+        while (count < processes) {
+            var found = false;
+            for (var i = 0; i < processes; i++) {
+                if (!finish[i]) {
+                    var j;
+                    for (j = 0; j < resources; j++) {
+                        if (request[i][j] > work[j]) {
+                            break;
+                        }
+                    }
+                    if (j === resources) {
+                        for (var k = 0; k < resources; k++) {
+                            work[k] += allocation[i][k];
+                        }
+                        safeSequence.push(i); // Process i can complete
+                        finish[i] = true;
+                        found = true;
+                        count++;
+                    }
+                }
+            }
+            if (!found) {
+                break; // Deadlock detected
+            }
+        }
+
+        if (count === processes) {
+            return safeSequence; // Safe sequence found
+        } else {
+            return []; // Deadlock detected, no safe sequence
+        }
+    }
+
+    window.onload = function() {
+        document.getElementById('processes').addEventListener('input', function() {
+            createMatrixInput(parseInt(this.value), parseInt(document.getElementById('resources').value), 'allocation', 'Process ');
+            createMatrixInput(parseInt(this.value), parseInt(document.getElementById('resources').value), 'request', 'Process ');
+        });
+
+        document.getElementById('resources').addEventListener('input', function() {
+            createMatrixInput(parseInt(document.getElementById('processes').value), parseInt(this.value), 'allocation', 'Process ');
+            createMatrixInput(parseInt(document.getElementById('processes').value), parseInt(this.value), 'request', 'Process ');
+            createMatrixInput(1, parseInt(this.value), 'available', 'Resource ');
+        });
+    };
+</script>
+
+</body>
+</html>
