@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FIFO Page Replacement Algorithm</title>
+<link rel="icon" href="https://sme.nitk.ac.in/assets/images/1.png" type="image/png">
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        margin: 20px;
+        background-color: white;
+        color: black;
+    }
+    .container {
+        max-width: 600px;
+        margin: 0 auto;
+    }
+    input[type="text"], textarea {
+        width: 100%;
+        padding: 10px;
+        margin: 5px 0;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        box-sizing: border-box;
+    }
+    input[type="button"] {
+        background-color: #4CAF50;
+        color: white;
+        padding: 10px 20px;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+    }
+    input[type="button"]:hover {
+        background-color: #45a049;
+    }
+    table {
+        border-collapse: collapse;
+        width: 100%;
+    }
+    th, td {
+        border: 1px solid #dddddd;
+        text-align: center;
+        padding: 8px;
+    }
+    th {
+        background-color: #f2f2f2;
+    }
+
+    @media only screen and (max-width: 768px) {
+        .container {
+            width: 90%;
+        }
+    }
+
+    @media only screen and (max-width: 480px) {
+        input[type="text"], textarea, input[type="button"] {
+            width: 100%;
+        }
+    }
+</style>
+</head>
+<body>
+
+        <a href="https://arjun-vegeta.github.io/OS-LAB-mini-project/" style="position: absolute; top: 20px; left: 20px; text-decoration: none; color: #000;">
+        <!-- SVG for back button -->
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M19 12H6.414l3.293-3.293a1 1 0 0 0-1.414-1.414l-5 5a1 1 0 0 0 0 1.414l5 5a1 1 0 0 0 1.414-1.414L6.414 14H19a1 1 0 0 0 0-2z"/>
+        </svg>
+    </a>
+    
+<div class="container">
+    <h2>FIFO Page Replacement Algorithm</h2>
+    <label for="num_frames">Number of Frames:</label>
+    <input type="text" id="num_frames">
+    <br>
+    <label for="page_sequence">Page Reference Sequence (separated by spaces):</label>
+    <br>
+    <textarea id="page_sequence" rows="3"></textarea>
+    <br>
+    <input type="button" value="Run Algorithm" onclick="runAlgorithm()">
+    <div id="output"></div>
+    <div id="statistics"></div>
+</div>
+
+<script>
+function runAlgorithm() {
+    var num_frames = parseInt(document.getElementById("num_frames").value);
+    var page_sequence = document.getElementById("page_sequence").value.split(" ").map(Number);
+
+    var frames = Array(num_frames).fill(-1);
+    var page_faults = 0;
+    var page_hits = 0;
+    var page_replacement_output = [];
+
+    // FIFO page replacement algorithm
+    for (var i = 0; i < page_sequence.length; i++) {
+        var page = page_sequence[i];
+        var found = false;
+
+        // Check if page is already in memory
+        for (var j = 0; j < num_frames; j++) {
+            if (frames[j] === page) {
+                found = true;
+                page_hits++;
+                break;
+            }
+        }
+
+        // If page not found in memory, replace the oldest page
+        if (!found) {
+            frames.pop(); // Remove the oldest page
+            frames.unshift(page); // Add the new page at the beginning
+            page_faults++;
+        }
+
+        // Create a copy of frames array for output
+        var frames_copy = frames.slice();
+        page_replacement_output.push({page: page, frames: frames_copy, status: found ? "Hit" : "Fault"});
+    }
+
+    // Calculate page hit ratio and page fault ratio
+    var total_references = page_hits + page_faults;
+    var page_hit_ratio = (page_hits / total_references * 100).toFixed(2);
+    var page_fault_ratio = (page_faults / total_references * 100).toFixed(2);
+
+    // Build output table
+    var output = "<h3>Page Replacement Output</h3>";
+    output += "<table><tr><th>Page Reference</th>";
+    for (var i = 1; i <= num_frames; i++) {
+        output += "<th>Frame " + i + "</th>";
+    }
+    output += "<th>Status</th></tr>";
+
+    // Populate output table rows
+    for (var i = 0; i < page_replacement_output.length; i++) {
+        output += "<tr><td>" + page_replacement_output[i].page + "</td>";
+        for (var j = 0; j < num_frames; j++) {
+            output += "<td>";
+            if (page_replacement_output[i].frames[j] === -1)
+                output += "_";
+            else
+                output += page_replacement_output[i].frames[j];
+            output += "</td>";
+        }
+        output += "<td>" + page_replacement_output[i].status + "</td></tr>";
+    }
+
+    output += "</table>";
+
+    document.getElementById("output").innerHTML = output;
+
+    // Build statistics table
+    var statistics = "<h3>Statistics</h3>";
+    statistics += "<table>";
+    statistics += "<tr><th>Statistic</th><th>Value</th></tr>";
+    statistics += "<tr><td>Total Page Hits</td><td>" + page_hits + "</td></tr>";
+    statistics += "<tr><td>Total Page Faults</td><td>" + page_faults + "</td></tr>";
+    statistics += "<tr><td>Page Hit Ratio (%)</td><td>" + page_hit_ratio + "</td></tr>";
+    statistics += "<tr><td>Page Fault Ratio (%)</td><td>" + page_fault_ratio + "</td></tr>";
+    statistics += "</table>";
+
+    document.getElementById("statistics").innerHTML = statistics;
+}
+</script>
+</body>
+</html>
