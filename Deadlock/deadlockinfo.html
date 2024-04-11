@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta http-equiv="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Deadlock Detection & Banker's Algorithm</title>
+    <link rel="icon" href="https://sme.nitk.ac.in/assets/images/1.png" type="image/png">
+    <style>
+        /* Black and blue theme styling */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #1e1e1e;
+            color: #cfcfcf;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        h1 {
+            color: #0d6efd;
+        }
+
+        .container {
+            width: 80%;
+            margin: 0 auto;
+            background-color: #333;
+            padding: 20px;
+            border: 1px solid #0d6efd;
+            border-radius: 5px;
+        }
+
+        h2 {
+            color: #0d6efd;
+        }
+
+        p, ul, ol {
+            margin: 15px 0;
+        }
+
+        code {
+            background-color: #444;
+            color: #cfcfcf;
+            padding: 2px 5px;
+            border-radius: 3px;
+        }
+
+        a {
+            color: #0d6efd;
+            text-decoration: none;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+
+        button {
+            padding: 10px;
+            background-color: #0d6efd;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+
+        button:hover {
+            background-color: #0a58ca;
+        }
+
+        /* Back button styling */
+        .back-button {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+        }
+    </style>
+</head>
+
+<body>
+    <a href="https://www.abc.com" class="back-button">
+        <button>&larr; Back</button>
+    </a>
+
+    <header>
+        <h1>Deadlock Detection & Banker's Algorithm</h1>
+    </header>
+
+    <div class="container">
+        <h2>Overview</h2>
+        <p>Deadlock is a situation in which two or more processes are unable to proceed because each is waiting for the other to release a resource. Deadlock detection and avoidance techniques are important in operating systems to prevent or resolve these situations.</p>
+
+        <h2>Deadlock Detection</h2>
+        <p>Deadlock detection involves monitoring a system for potential deadlock scenarios, where processes are blocked due to resource contention. Using techniques like resource-allocation graphs, deadlock detection can be performed efficiently.</p>
+        
+        <h3>Sample Input</h3>
+        <p>For a system with 3 processes and 3 resources:</p>
+        <ul>
+            <li><strong>Allocation Matrix:</strong> <code>[[1, 0, 2], [0, 1, 0], [2, 0, 1]]</code></li>
+            <li><strong>Request Matrix:</strong> <code>[[1, 0, 0], [0, 1, 1], [0, 0, 1]]</code></li>
+            <li><strong>Available Resources:</strong> <code>[1, 1, 1]</code></li>
+        </ul>
+        
+        <h3>Sample Output</h3>
+        <p>The system is in a safe state. A possible safe sequence is: <code>1, 0, 2</code>.</p>
+
+        <button onclick="window.location.href = 'https://example.com/deadlock-simulator'">Deadlock Simulator</button>
+
+        <h2>Banker's Algorithm</h2>
+        <p>Banker's algorithm is a resource allocation and deadlock avoidance algorithm. It ensures that a system remains in a safe state by checking whether granting a process's request for resources will result in a deadlock.</p>
+        
+        <h3>Sample Input</h3>
+        <p>For a system with 4 processes and 3 resources:</p>
+        <ul>
+            <li><strong>Allocation Matrix:</strong> <code>[[0, 1, 0], [2, 0, 0], [3, 0, 2], [2, 1, 1]]</code></li>
+            <li><strong>Maximum Matrix:</strong> <code>[[7, 5, 3], [3, 2, 2], [9, 0, 2], [4, 3, 3]]</code></li>
+            <li><strong>Available Resources:</strong> <code>[3, 3, 2]</code></li>
+        </ul>
+        
+        <h3>Sample Output</h3>
+        <p>The system is in a safe state. A possible safe sequence is: <code>1, 3, 0, 2</code>.</p>
+
+        <button onclick="window.location.href = 'https://example.com/bankers-simulator'">Banker's Algorithm Simulator</button>
+
+        <h2>Further Reading</h2>
+        <p>For more information on deadlock detection and Banker's algorithm, you can refer to:</p>
+        <ul>
+            <li><a href="https://en.wikipedia.org/wiki/Banker%27s_algorithm" target="_blank">Banker's Algorithm - Wikipedia</a></li>
+            <li><a href="https://en.wikipedia.org/wiki/Deadlock" target="_blank">Deadlock - Wikipedia</a></li>
+            <li><a href="https://www.geeksforgeeks.org/bankers-algorithm-resource-allocation-algorithms-operating-systems/" target="_blank">Banker's Algorithm - GeeksforGeeks</a></li>
+            <li><a href="https://www.tutorialspoint.com/operating_system/os_deadlocks.htm" target="_blank">Deadlock Concepts - TutorialsPoint</a></li>
+        </ul>
+
+    </div>
+</body>
+
+</html>
