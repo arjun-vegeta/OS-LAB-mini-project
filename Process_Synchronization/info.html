@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Operating System Concepts</title>
+    <style>
+        /* CSS for navigation bar */
+        nav {
+            background-color: #333;
+            overflow: hidden;
+        }
+        
+        nav a {
+            float: left;
+            display: block;
+            color: white;
+            text-align: center;
+            padding: 14px 20px;
+            text-decoration: none;
+        }
+        
+        nav a:hover {
+            background-color: rgb(66, 74, 237);
+            color: black;
+        }
+
+        /* CSS for back button */
+        .back-button {
+            display: block;
+            margin-top: 20px;
+        }
+
+        /* CSS for content */
+        .content {
+            padding: 20px;
+            background-color: black;
+            color: white;
+            font-family: Arial, sans-serif;
+        }
+
+        h1, h2 {
+            color: #00f; /* Blue color for headings */
+        }
+
+        p {
+            color: #ddd; /* Light gray color for paragraphs */
+        }
+    </style>
+</head>
+<body>
+
+<!-- Navigation bar -->
+<nav>
+    <a href="din.html">Dining Philosopher</a>
+    <a href="prod.html">Producer Consumer</a>
+    <a href="read.html">Reader Writer</a>
+    <a href="sleep.html">Sleeping Barber</a>
+    <a href="https://arjun-vegeta.github.io/OS-LAB-mini-project/#info">Back</a>
+</nav>
+
+<!-- Content -->
+<div class="content">
+	<h1>Process Synchronization</h1>
+	<br>
+
+    <h2 id="dining-philosopher">Dining Philosopher</h2>
+    <p>
+        The Dining Philosophers problem is a classic synchronization problem used to illustrate the challenges of avoiding deadlock in a multi-threaded environment. In this problem, a number of philosophers sit at a table with bowls of spaghetti. Between each philosopher are chopsticks. The philosophers alternate between thinking and eating, but they can only eat if they can acquire both chopsticks to their left and right. Deadlock can occur if each philosopher picks up one chopstick and waits indefinitely for the other, resulting in a circular wait condition.
+        Solutions to the Dining Philosophers problem often involve strategies such as resource allocation, mutual exclusion, and deadlock prevention, which are fundamental concepts in operating systems and concurrent programming.
+    </p>
+
+    <h2 id="producer-consumer">Producer Consumer</h2>
+    <p>
+        The Producer-Consumer problem is another classic synchronization problem where there are two types of processes: producers and consumers. Producers generate data items and place them into a shared buffer, while consumers retrieve data items from the buffer and consume them. The challenge is to ensure that producers and consumers do not interfere with each other while accessing the shared buffer. This problem often involves the use of synchronization primitives like semaphores or mutexes to coordinate access.
+        Solutions to the Producer-Consumer problem typically involve implementing mechanisms to prevent race conditions, ensure mutual exclusion, and coordinate access to shared resources, all of which are essential concepts in concurrent programming and operating systems design.
+    </p>
+
+    <h2 id="reader-writer">Reader Writer</h2>
+    <p>
+        The Reader-Writer problem is a synchronization problem that involves multiple readers and writers accessing a shared resource, such as a database. Readers only read the resource and do not modify it, while writers both read and write to the resource. The challenge is to allow multiple readers to access the resource concurrently while ensuring that writers have exclusive access to the resource to prevent data inconsistency. This problem can be solved using various synchronization mechanisms like locks or reader-writer locks.
+        Solutions to the Reader-Writer problem often require careful consideration of trade-offs between concurrency and data consistency, as well as the implementation of strategies to minimize contention and maximize parallelism, which are essential in designing efficient and scalable systems.
+    </p>
+
+    <h2 id="sleeping-barber">Sleeping Barber</h2>
+    <p>
+        The Sleeping Barber problem is a synchronization problem that models a barbershop with a single barber and a waiting room with a limited number of chairs. Customers arrive at the barbershop and either find an available chair in the waiting room or leave if all chairs are occupied. If a customer finds an available chair, they sit and wait for the barber to become available. The challenge is to synchronize the actions of the barber and the customers to ensure mutual exclusion and prevent race conditions.
+        Solutions to the Sleeping Barber problem often involve the use of synchronization primitives such as semaphores or monitors to coordinate access to shared resources and ensure orderly access to the barber's services. Additionally, techniques such as queuing theory and scheduling algorithms may be employed to optimize resource utilization and minimize wait times, which are crucial considerations in designing efficient and responsive systems.
+    </p>
+</div>
+
+</body>
+</html>

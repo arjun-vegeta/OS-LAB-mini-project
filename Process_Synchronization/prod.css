@@ -1,0 +1,64 @@
+/* Add custom styles here */
+
+body {
+    background-color: azure;
+}
+
+h1 {
+    text-align: center;
+    color: #343a40;
+    margin-top: 20px;
+}
+
+.panel {
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.panel-heading {
+    background-color: #007bff;
+    color: #fff;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+}
+
+.panel-body {
+    background-color: #fff;
+    color: #333;
+}
+
+.list-group-item {
+    border: none;
+}
+
+.btn {
+    border-radius: 20px;
+}
+
+.panel-label {
+    float: right;
+}
+
+.label-default {
+    background-color: #6c757d;
+}
+
+.label-primary {
+    background-color: #007bff;
+}
+
+.code-panel {
+    padding: 15px;
+    overflow-x: auto;
+}
+
+pre {
+    margin-bottom: 0;
+}
+
+img {
+    display: block;
+    margin: 20px auto;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
