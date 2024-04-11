@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Disk Scheduling Algorithms Explained with Examples</title>
+    <!-- Link to external CSS file for styling -->
+    <link rel="stylesheet" href="stylesheet.css">
+    
+
+    <!-- Link to Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@300;700&display=swap" rel="stylesheet">
+</head>
+
+<body>
+    <!-- Navigation bar -->
+    <nav class="navbar">
+        <ul>
+            <li><a href="https://arjun-vegeta.github.io/OS-LAB-mini-project/#info">Back</a></li>
+            <li><a href="fcfs.html">FCFS</a></li>
+            <li><a href="sstf.html">SSTF</a></li>
+            <li><a href="scan.html">SCAN</a></li>
+            <li><a href="cscan.html">C-SCAN</a></li>
+            <li><a href="look.html">LOOK</a></li>
+            <li><a href="clook.html">C-LOOK</a></li>
+        </ul>
+    </nav>
+    <div class = "header-container">
+        <h2> </h2>
+        </div>
+    <div class = "header-container">
+        <h2> Disk Scheduling Algorithms Explained</h2>
+        </div>
+
+    
+
+    <div class="content">
+
+        <!-- Description and examples of disk scheduling algorithms -->
+        <div class="algorithms-info">
+            <!-- FCFS Algorithm -->
+            <section id="fcfs">
+                <h3>1. FCFS (First Come First Served)</h3>
+                <p>
+                    The FCFS algorithm serves requests in the order they arrive in the queue, similar to a queue (first in, first out). This algorithm processes each request in the order it appears in the request queue.
+                    <ul>
+                        <li><strong>Advantage:</strong> Simple to implement and easy to understand.</li>
+                        <li><strong>Disadvantage:</strong> Can lead to higher seek times if requests are scattered across the disk.</li>
+                    </ul>
+                </p>
+                <p><strong>Example:</strong></p>
+                <p>
+                    Request Queue: 34, 12, 50, 180, 90 <br>
+                    Current Head Position: 50 <br>
+                    FCFS would service requests in the order listed, resulting in a total seek time of:<br>
+                    <code>(50 - 34) + (34 - 12) + (12 - 50) + (50 - 180) + (180 - 90) = 324</code>
+                </p>
+            </section>
+
+            <!-- SSTF Algorithm -->
+            <section id="sstf">
+                <h3>2. SSTF (Shortest Seek Time First)</h3>
+                <p>
+                    SSTF prioritizes the request with the shortest seek time from the current head position. The algorithm chooses the request that is closest to the current head position, minimizing seek time and movement.
+                    <ul>
+                        <li><strong>Advantage:</strong> Generally reduces seek time compared to FCFS.</li>
+                        <li><strong>Disadvantage:</strong> Can lead to starvation for requests far from the head, as the head keeps serving closer requests.</li>
+                    </ul>
+                </p>
+                <p><strong>Example:</strong></p>
+                <p>
+                    Request Queue: 98, 183, 30, 110, 50 <br>
+                    Current Head Position: 50 <br>
+                    SSTF would service requests in this order:<br>
+                    <code>50 -> 30 -> 50 -> 98 -> 110 -> 183</code> (assuming the head moves right first)<br>
+                    Total seek time: <code>(50 - 30) + (30 - 98) + (98 - 110) + (110 - 183) = 201</code> (better than FCFS)
+                </p>
+            </section>
+
+            <!-- SCAN Algorithm -->
+            <section id="scan">
+                <h3>3. SCAN (Elevator Algorithm)</h3>
+                <p>
+                    SCAN is known as the "elevator algorithm" because it works like an elevator servicing floors in a building. The algorithm moves the head in one direction (e.g., right) and services requests along the way until it reaches the end of the disk. It then reverses direction and services requests on the way back.
+                    <ul>
+                        <li><strong>Advantage:</strong> Efficient for scenarios where requests are clustered in specific areas.</li>
+                        <li><strong>Disadvantage:</strong> Can be slow for randomly distributed requests.</li>
+                    </ul>
+                </p>
+                <p><strong>Example:</strong></p>
+                <p>
+                    Request Queue: 82, 170, 43, 140, 200, 120 <br>
+                    Current Head Position: 50 (moving right) <br>
+                    SCAN would service requests in this order:<br>
+                    <code>50 -> 82 -> 120 -> 140 -> 170 -> 200 -> 43</code> (assuming head reverses after reaching 200)
+                </p>
+            </section>
+
+            <!-- C-SCAN Algorithm -->
+            <section id="cscan">
+                <h3>4. C-SCAN (Circular SCAN)</h3>
+                <p>
+                    C-SCAN treats the disk as a circular track. Once the head reaches the end of the disk, it immediately jumps back to the beginning and continues servicing requests in the same direction. This algorithm provides a more uniform wait time for each request.
+                    <ul>
+                        <li><strong>Advantage:</strong> Eliminates the need for extra seek time at the end of the disk platter.</li>
+                        <li><strong>Disadvantage:</strong> Similar limitations as SCAN for randomly distributed requests.</li>
+                    </ul>
+                </p>
+                <p><strong>Example:</strong></p>
+                <p>
+                    Request Queue: 82, 170, 43, 140, 200, 120 <br>
+                    Current Head Position: 50 (moving right) <br>
+                    C-SCAN would service requests in this order:<br>
+                    <code>50 -> 82 -> 120 -> 140 -> 170 -> 200 -> Immediately jumps back to 43</code>
+                </p>
+            </section>
+
+            <!-- LOOK Algorithm -->
+            <section id="look">
+                <h3>5. LOOK</h3>
+                <p>
+                    LOOK is similar to SCAN but stops before reaching the end of the disk. Once the head reaches the last request in the current direction, it reverses and services only the pending requests in the new direction.
+                    <ul>
+                        <li><strong>Advantage:</strong> Reduces seek time compared to SCAN by not servicing requests in the opposite direction during a pass.</li>
+                        <li><strong>Disadvantage:</strong> Shares limitations with SCAN for random requests.</li>
+                    </ul>
+                </p>
+                <p><strong>Example:</strong></p>
+                <p>
+                    Request Queue: 82, 170, 43, 140, 200, 120 <br>
+                    Current Head Position: 50 (moving right) <br>
+                    LOOK would service requests in this order:<br>
+                    <code>50 -> 82 -> 120 -> 140 -> 170</code>, then reverse direction: <code>170 -> 43 -> 200</code>
+                </p>
+            </section>
+
+            <!-- C-LOOK Algorithm -->
+            <section id="clook">
+                <h3>6. C-LOOK (Circular LOOK)</h3>
+                <p>
+                    C-LOOK is an enhanced version of LOOK, treating the disk as a circular track. The head jumps from the end in the current direction to the beginning and immediately starts servicing requests in the new direction.
+                    <ul>
+                        <li><strong>Advantage:</strong> Improves upon LOOK by eliminating unnecessary movement at the end of the disk and reduces seek time compared to SCAN.</li>
+                        <li><strong>Disadvantage:</strong> Similar to LOOK, it might not be ideal for randomly distributed requests.</li>
+                    </ul>
+                </p>
+                <p><strong>Example:</strong></p>
+                <p>
+                    Request Queue: 82, 170, 43, 140, 200, 120 <br>
+                    Current Head Position: 50 (moving right) <br>
+                    C-LOOK would service requests in this order:<br>
+                    <code>50 -> 82 -> 120 -> 140 -> 170 -> Immediately jumps back to 43 and continues servicing -> 200</code>
+                </p>
+            </section>
+        </div>
+    </div>
+
+</body>
+
+</html>

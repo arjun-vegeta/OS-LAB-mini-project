@@ -1,0 +1,401 @@
+/* Global styling */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #222;
+    color: #fff;
+}
+
+/* Header container */
+.header-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 10px 20px; /* Add padding for spacing on all sides */
+    max-width: 100%; /* Full-width container */
+    background-color: #333; /* Dark gray background */
+    border-bottom: 1px solid #444; /* Border line below header */
+}
+
+.button-container {
+    display: flex;
+    justify-content: left;
+    align-items: center;
+    padding: 10px 20px; /* Add padding for spacing on all sides */
+    max-width: 100%; /* Full-width container */
+    background-color: #333; /* Dark gray background */
+    border-bottom: 1px solid #444; /* Border line below header */
+}
+
+/* Styling for the heading */
+h2 {
+    font-family: 'Quicksand', sans-serif;
+    font-weight: 700;
+    color: #fff;
+    margin: 0; /* Remove default margin */
+    text-align: center;
+}
+
+/* Back button styling */
+.back-button {
+    padding: 10px 20px; /* Adjust padding */
+    background-color: #007BFF; /* Blue background */
+    color: white; /* White text */
+    text-decoration: none; /* Remove underline */
+    border-radius: 5px; /* Rounded corners */
+    font-weight: bold; /* Bold text */
+    transition: background-color 0.3s; /* Smooth hover effect */
+}
+
+/* Button hover effect */
+.back-button:hover {
+    background-color: #0056b3; /* Darker blue on hover */
+}
+
+/* Styling for the form */
+#clookForm {
+    max-width: 700px;
+    margin: 50px auto;
+    background-color: rgba(255, 255, 255, 0.1);
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+}
+
+
+
+#lookForm {
+    max-width: 700px; /* Reduced the maximum width of the form */
+    margin: 50px auto;
+    background-color: rgba(255, 255, 255, 0.1);
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+}
+
+#cscanForm {
+    max-width: 700px; /* Reduced the maximum width of the form */
+    margin: 50px auto;
+    background-color: rgba(255, 255, 255, 0.1);
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+}
+
+#scanForm {
+    max-width: 700px; /* Reduced the maximum width of the form */
+    margin: 50px auto;
+    background-color: rgba(255, 255, 255, 0.1);
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+}
+
+#sstfForm {
+    max-width: 700px;
+    margin: 50px auto;
+    background-color: rgba(255, 255, 255, 0.1);
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+}
+
+#fcfsForm {
+    max-width: 700px;
+    margin: 50px auto;
+    background-color: rgba(255, 255, 255, 0.1);
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+}
+
+
+
+/* Styling for form labels */
+label {
+    display: block;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+/* Styling for form inputs */
+input[type="text"],
+input[type="number"], 
+select{
+    font-family: 'Roboto', sans-serif;
+    width: calc(100% - 20px);
+    padding: 10px;
+    margin-bottom: 20px;
+    border: 1px solid #d3d3d3; /* Light gray border */
+    border-radius: 5px;
+    background-color: #333; /* Dark gray background */
+    color: #add8e6; /* Light blue text */
+}
+
+/* Styling for the dropdown menu (select element) */
+select {
+    font-family: 'Roboto', sans-serif;
+    background-color: #333; /* Dark gray background */
+    color: #add8e6; /* Light blue text */
+    border: 1px solid #d3d3d3; /* Light gray border */
+    border-radius: 5px;
+    padding: 10px;
+    width: 100%; /* Ensure the dropdown matches the width of other inputs */
+}
+
+/* Styling for the submit button */
+input[type="submit"] {
+    width: 100%;
+    background-color: #1E90FF; /* Blue background */
+    color: white;
+    padding: 15px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+input[type="submit"]:hover {
+    background-color: #1C86EE; /* Slightly darker blue on hover */
+}
+
+/* Styling for the result div */
+#result {
+    max-width: 700px; /* Larger size to match input card */
+    margin: 50px auto 0; /* Margin added for spacing */
+    background-color: rgba(255, 255, 255, 0.1);
+    padding: 30px; /* More padding for better spacing */
+    border-radius: 10px; /* Rounded corners */
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+    font-family: 'Quicksand', sans-serif; /* Matching the title's font */
+    font-weight: 400; /* Regular font weight */
+    line-height: 1.5; /* Proper line spacing for readability */
+}
+
+/* Styling for the seek count */
+.seek-count {
+    color: #ccc; /* Light gray color (same as seek sequence) */
+    margin-bottom: 10px;
+}
+
+/* Styling for the seek sequence list */
+.seek-sequence {
+    margin-top: 10px;
+    color: #ccc; /* Light gray color */
+}
+
+.container {
+    display: flex;
+    align-items: center; 
+    justify-content: center;
+    margin-top: 20px;
+  }
+
+  /* Global styling */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #222;
+    color: #fff;
+    line-height: 1.6; /* Improved line height for readability */
+}
+
+/* Header container */
+.header-container {
+    display: flex;
+    justify-content: center; /* Align elements with space between them */
+    align-items: center;
+    padding: 20px 20px; /* Padding for spacing on all sides */
+    max-width: 100%; /* Full-width container */
+    background-color: #333; /* Dark gray background */
+    border-bottom: 2px solid #444; /* Border line below header */
+}
+
+/* Back button styling */
+.back-button {
+    padding: 10px 20px; /* Padding for the button */
+    background-color: #007BFF; /* Blue background */
+    color: white; /* White text */
+    text-decoration: none; /* Remove underline */
+    border-radius: 5px; /* Rounded corners */
+    font-weight: bold; /* Bold text */
+    transition: background-color 0.3s; /* Smooth hover effect */
+    display: inline-block; /* Inline block display */
+}
+
+/* Button hover effect */
+.back-button:hover {
+    background-color: #0056b3; /* Darker blue on hover */
+}
+
+/* Title (h2) styling */
+h2 {
+    font-family: 'Quicksand', sans-serif;
+    font-weight: 700;
+    color: #fff;
+    margin: 20px 0; /* Add top and bottom margin */
+    text-align: center;
+}
+
+/* Section title styling (h3) */
+h3 {
+    font-family: 'Quicksand', sans-serif;
+    font-weight: 600;
+    color: #ccc; /* Light gray color */
+    margin-bottom: 15px; /* Margin below h3 */
+}
+
+nav {
+    background-color: #333; /* Dark gray background */
+    padding: 10px 20px; /* Padding for spacing */
+    position: fixed; /* Fixed position at the top */
+    width: 100%; /* Full-width navbar */
+    top: 0; /* Position at the top of the page */
+    z-index: 1000; /* Ensure navbar is on top */
+}
+
+/* Navigation list styles */
+nav ul {
+    list-style: none; /* Remove default list bullets */
+    margin: 0; /* Remove default margins */
+    padding: 0; /* Remove default padding */
+    display: flex; /* Use flexbox to align items */
+    justify-content: center; /* Center items horizontally */
+}
+
+/* Navigation links styles */
+nav ul li {
+    margin-right: 20px; /* Space between list items */
+}
+
+nav ul li:last-child {
+    margin-right: 0; /* Remove margin from last item */
+}
+
+nav ul li a {
+    color: #fff; /* White text color */
+    text-decoration: none; /* Remove text underline */
+    font-weight: bold; /* Bold text */
+    font-size: 16px; /* Text size */
+    padding: 10px 15px; /* Padding for spacing */
+    border-radius: 5px; /* Rounded corners */
+    transition: background-color 0.3s, color 0.3s; /* Smooth transition */
+}
+
+/* Navigation links hover effect */
+nav ul li a:hover {
+    background-color: #007BFF; /* Blue background color on hover */
+    color: #fff; /* White text color on hover */
+}
+
+/* Section container styling */
+section {
+    background-color: rgba(255, 255, 255, 0.1); /* Semi-transparent background */
+    padding: 20px;
+    margin: 20px auto;
+    border-radius: 10px; /* Rounded corners */
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.1); /* Slight shadow */
+    max-width: 700px; /* Max width for better layout */
+}
+
+/* Paragraph styling */
+p {
+    margin-bottom: 15px; /* Margin below paragraphs */
+}
+
+/* List styling */
+ul {
+    margin: 10px 0 15px 20px; /* Margin for lists */
+    padding-left: 20px; /* Padding for bullet points */
+    color: #ccc; /* Light gray color */
+}
+
+/* Code block styling */
+code {
+    background-color: #444; /* Darker background for code */
+    color: #add8e6; /* Light blue text */
+    padding: 2px 4px; /* Padding for code blocks */
+    border-radius: 4px; /* Rounded corners */
+}
+
+/* Styling for the form (if needed in the page) */
+form {
+    max-width: 700px;
+    margin: 50px auto;
+    background-color: rgba(255, 255, 255, 0.1);
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+}
+
+/* Input styling */
+input[type="text"],
+input[type="number"], 
+select {
+    width: 100%; /* Full-width input */
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #d3d3d3; /* Light gray border */
+    border-radius: 5px;
+    background-color: #333; /* Dark gray background */
+    color: #add8e6; /* Light blue text */
+}
+
+/* Styling for the dropdown menu (select element) */
+select {
+    width: 100%; /* Ensure the dropdown matches the width of other inputs */
+}
+
+/* Styling for the submit button */
+input[type="submit"] {
+    width: 100%; /* Full width */
+    padding: 12px;
+    background-color: #1E90FF; /* Blue background */
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+input[type="submit"]:hover {
+    background-color: #1C86EE; /* Slightly darker blue on hover */
+}
+
+/* Container styling */
+.container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin-top: 20px; /* Margin at the top */
+}
+
+/* Styling for the result div */
+#result {
+    max-width: 700px; /* Larger size to match input card */
+    margin: 50px auto 0; /* Margin added for spacing */
+    background-color: rgba(255, 255, 255, 0.1);
+    padding: 30px; /* More padding for better spacing */
+    border-radius: 10px; /* Rounded corners */
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+    font-family: 'Quicksand', sans-serif; /* Matching the title's font */
+    font-weight: 400; /* Regular font weight */
+    line-height: 1.5; /* Proper line spacing for readability */
+}
+
+/* Styling for the seek count */
+.seek-count {
+    color: #ccc; /* Light gray color (same as seek sequence) */
+    margin-bottom: 10px;
+}
+
+/* Styling for the seek sequence list */
+.seek-sequence {
+    margin-top: 10px;
+    color: #ccc; /* Light gray color */
+}
+
+

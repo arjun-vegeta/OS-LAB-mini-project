@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>FCFS Disk Scheduling</title>
+    <!-- Link to the external CSS file -->
+    <link rel="stylesheet" href="stylesheet.css">
+
+    <!-- Link to Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@300..700&display=swap" rel="stylesheet">
+
+    <!-- Include Chart.js library -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels"></script>
+</head>
+<body>
+    <nav class="navbar">
+        <ul>
+            <li><a href="disk_info.html">Back</a></li>
+            <li><a href="fcfs.html">FCFS</a></li>
+            <li><a href="sstf.html">SSTF</a></li>
+            <li><a href="scan.html">SCAN</a></li>
+            <li><a href="cscan.html">C-SCAN</a></li>
+            <li><a href="look.html">LOOK</a></li>
+            <li><a href="clook.html">C-LOOK</a></li>
+        </ul>
+    </nav>
+    <div class = "header-container">
+
+    </div>
+    <div class = "header-container">
+    <h2>FCFS Disk Scheduling Algorithm</h2>
+    </div>
+
+
+    <!-- Form for user input -->
+    <form id="fcfsForm">
+        <label for="requestArray">Enter request array (comma-separated):</label>
+        <input type="text" id="requestArray" name="requestArray" required>
+
+        <label for="headPosition">Enter initial head position:</label>
+        <input type="number" id="headPosition" name="headPosition" required>
+
+        <input type="submit" value="Run FCFS">
+    </form>
+
+    <!-- Results will be displayed here -->
+    <div id="result"></div>
+
+    <!-- Link to the external JavaScript file -->
+    <script src="fcfs.js"></script>
+
+    <div class="container">
+    <!-- Canvas for the Chart.js graph -->
+    <div class="chart-container" style="position: relative; height:90vh; width:80vw" >
+        <canvas id="seekChart"></canvas>
+    </div>
+    </div>
+     
+</body>
+</html>
