@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Paging</title>
+<link rel="stylesheet" href="paging.css">
+</head>
+<body>
+    <nav>
+        <ul>
+            <li><a href="https://arjun-vegeta.github.io/OS-LAB-mini-project/#info">Back</a></li>
+            <li><a href="info.html">info</a></li>
+
+        </ul>
+        </div>
+    </nav>
+    <div class = "header-container">
+        <h2> Paging Technique of Memory Management</h2>
+        </div>
+    <div class="container-fluid">
+        <div class="row">
+
+            <script>
+                function admSelectCheck(nameSelect) {
+                    console.log(nameSelect);
+                    if (nameSelect) {
+                        x3 = document.getElementById("o3").value;
+                        x4 = document.getElementById("o4").value;
+                        x5 = document.getElementById("o5").value;
+                        x6 = document.getElementById("o6").value;
+                        x7 = document.getElementById("o7").value;
+                        if (x3 == nameSelect.value || x4 == nameSelect.value || x5 == nameSelect.value || x6 == nameSelect.value || x7 == nameSelect.value) {
+                            document.getElementById("admDivCheck").style.display = "block";
+                        }
+                        else {
+                            document.getElementById("admDivCheck").style.display = "none";
+                        }
+                    }
+                    else {
+                        document.getElementById("admDivCheck").style.display = "none";
+                    }
+                }
+            </script>
+
+        </div>
+  <div class="container">
+    <div class="main-body-container">
+        <div class="main-body">
+            <div class="mem-size">
+                <label for="memorySize">Memory Size</label>
+                <input type="number" placeholder="Enter the memory size (in bytes)" id="memorySize">
+            </div>
+        <div class="page-size">
+            <label for="pageSize">Page Size</label>
+            <input type="number" placeholder="Enter the page size (in bytes)" id="pageSize">
+        </div>
+        <div class="processes">
+            <label for="numProcesses">Number of Processes</label>
+            <input type="number" placeholder="Enter the number of processes" id="numProcesses" name="numProcesses">
+        </div> 
+    </div> 
+        <div class="main-body-simulation">
+            <div class="inputs">
+                <h2>Process Inputs : </h2>
+                <div id="pageInputs"></div>
+            </div>
+        </div>
+            <div class="main-body-output">
+                <button onclick="simulate()">Simulate</button>
+                <div id="output"></div>
+            </div>
+        </div>
+  </div>
+  <script src="paging.js"></script>
+</body>
+</html>
