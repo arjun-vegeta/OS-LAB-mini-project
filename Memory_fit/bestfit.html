@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Best Fit Memory Allocation</title>
+    <link rel="stylesheet" href="firstfit.css">
+</head>
+
+<body>
+    <nav class="navbar">
+        <ul>
+
+            <li><a href="firstfit.html" id="first-fit">First Fit</a></li>
+            <li><a href="worstfit.html" id="worst-fit">Worst Fit</a></li>
+            <li><a href="nextfit.html" id="next-fit">Next Fit</a></li>
+            <li><a href="bestfit.html" id="best-fit">Best Fit</a></li>
+            <li><a href="buddysystem.html" id="buddy-system">Buddy System</a></li>
+            <li><a href="info.html">Back</a></li>
+        </ul>
+    </nav>
+    <div class="container">
+        <h1>Best Fit Memory Allocation</h1>
+        <div class="input-section">
+            <label for="numBlocks">Enter the number of blocks:</label>
+            <input type="number" id="numBlocks">
+            <label for="numProcesses">Enter the number of processes:</label>
+            <input type="number" id="numProcesses">
+            <button onclick="inputBlockAndProcessSizes()">Next</button>
+        </div>
+        <div id="blockProcessInput" class="input-section" style="display: none;"></div>
+        <div id="result" class="result" style="display: none;"></div>
+    </div>
+    <script src="bestfit.js"></script>
+</body>
+
+</html>
