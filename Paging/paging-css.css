@@ -1,0 +1,207 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #222;
+    color: #fff;
+}
+nav ul{
+    list-style: none;
+    margin: 0; 
+    padding: 0; 
+    display: flex; 
+    justify-content: center; 
+}
+nav ul li {
+    margin-top:60px;
+    margin-right:20px;/* Space between list items */
+}
+nav ul li a {
+    color: #fff; /* White text color */
+    text-decoration: none; /* Remove text underline */
+    font-weight: bold; /* Bold text */
+    font-size: 16px; /* Text size */
+    padding: 10px 15px; /* Padding for spacing */
+    border-radius: 5px; /* Rounded corners */
+    transition: background-color 0.3s, color 0.3s; /* Smooth transition */
+}
+nav ul li a:hover {
+    background-color: #007BFF; /* Blue background color on hover */
+    color: #fff; /* White text color on hover */
+}
+.header-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 10px 20px; /* Add padding for spacing on all sides */
+    max-width: 100%; /* Full-width container */
+    background-color: #333; /* Dark gray background */
+    border-bottom: 1px solid #444; /* Border line below header */
+}
+.back-button {
+    padding: 10px 20px; /* Adjust padding */
+    background-color: #007BFF; /* Blue background */
+    color: white; /* White text */
+    text-decoration: none; /* Remove underline */
+    border-radius: 5px; /* Rounded corners */
+    font-weight: bold; /* Bold text */
+    transition: background-color 0.3s; /* Smooth hover effect */
+}
+.back-button:hover {
+    background-color: #0056b3; /* Darker blue on hover */
+}
+.button {
+    background-color: #000;
+    color:#fff;
+    border: none;
+    padding: 10px 20px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    margin: 4px 2px;
+    cursor: pointer;
+    transition-duration: 0.5s;
+    font-family: 'Outfit', sans-serif;
+    font-weight: 550;
+}
+.butn {
+    margin-top: 2.5%;
+    height: 41px;
+}
+.button1 {
+    background-color:#fff;
+    color: #000;
+    border-radius: 5px;
+    border: 2px solid #000;
+}
+.button1:hover {
+    background-color: #000;
+    color:#fff;
+}
+ul {
+    list-style: none;
+    margin-right: 4%;
+    padding: 0;
+    display: flex;
+    justify-content: right;
+    align-items: center;
+    height: 100%;
+}
+li {
+    margin: 0 20px;
+}
+a {
+    color: #000;
+    text-decoration: none;
+    font-size: 20px;
+    font-weight: bold;
+    text-transform: uppercase;
+}
+.container{
+    margin-top: 1rem;
+}
+.heading-container{
+    display: flex;
+    justify-content:center;
+    align-items: center;
+    width: 96%;
+}
+.heading{
+    background-color: aliceblue;
+  border-radius: 10px;
+  padding: 20px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center; 
+  align-items: center; 
+}
+.heading1{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 48px;
+}
+.heading-text{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 22px;
+    text-align: center;
+}
+.main-body-container{
+    background-color:#333;
+    border-radius: 10px;
+    margin-top: 2rem;
+    padding-left: 4rem;
+    padding-right: 4rem;
+    width: 86%;
+    padding-bottom: 1rem;
+}
+.main-body{
+    display: flex;
+    justify-content: space-between;
+}  
+.main-body-simulation{
+    display: flex;
+    margin-top: 2rem;
+}
+.main-body-output{
+    margin-top: 1rem;
+}
+.mem-size{
+    margin: 1rem 1rem 1rem 1rem;
+    display: flex;
+    flex-direction: column;
+    width:14rem;
+}
+label{
+    text-align: center;
+}
+input {
+    margin-bottom: 10px;
+    margin-top: 10px;
+    padding-top: 0.5rem;
+    padding-bottom: 0.5rem;
+    padding-left: 0.7rem;
+}
+.page-size{
+    margin: 1rem 1rem 1rem 1rem;
+    display: flex;
+    flex-direction: column;
+    width:14rem;
+}
+.processes{
+    margin: 1rem 1rem 1rem 1rem;
+    display: flex;
+    flex-direction: column;
+    width:14rem;
+  }
+  .inputs{
+    display: flex;
+    align-items: center;
+  }
+  .inputs input{
+    width: 16rem;
+  }
+  
+  #pageInputs {
+    margin-left: 1rem;
+  }
+  
+  #output {
+    margin-top: 20px;
+    color:white;
+  }
+  .main-body-output button{
+        background-color: #fff;
+        color: grey;
+        border-width: 0.1px;
+        border-radius: 10px;
+        padding: 0.5rem 0.5rem 0.5rem 0.5rem;
+        margin-left: 50%;
+  }
+.main-body-output button:hover{
+    cursor: pointer;
+    color: #000;
+}
