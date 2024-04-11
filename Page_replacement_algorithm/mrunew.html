@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MRU Page Replacement Algorithm</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #000;
+            color: #001f3f;
+            margin: 0;
+            padding-top: 60px; /* Offset body content to account for navbar */
+        }
+        /* Navbar styling */
+        nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            background-color: #111;
+            padding: 10px 0;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+            z-index: 1000;
+        }
+        nav ul {
+            list-style: none;
+            display: flex;
+            justify-content: center;
+            padding: 0;
+            margin: 0;
+        }
+        nav ul li {
+            margin: 0 15px;
+        }
+        nav ul li a {
+            text-decoration: none;
+            color: #7FDBFF;
+            padding: 10px 15px;
+            border-radius: 5px;
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+        nav ul li a:hover {
+            background-color: #39CCCC;
+            color: #FFF;
+        }
+        /* Container styling */
+        .container {
+            width: 80%;
+            max-width: 600px;
+            padding: 30px;
+            margin: auto;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            background-color: #222;
+        }
+        h1 {
+            text-align: center;
+            color: #01FF70;
+            margin-bottom: 20px;
+        }
+        /* Input group styling */
+        .input-group {
+            margin-bottom: 15px;
+        }
+        label {
+            display: block;
+            color: #32CD32;
+            margin-bottom: 5px;
+        }
+        input[type="number"], input[type="text"] {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #aaa;
+            border-radius: 5px;
+            box-sizing: border-box;
+            background-color: #444;
+            color: #fff;
+        }
+        /* Button styling */
+        button {
+            display: block;
+            width: 100%;
+            padding: 12px 0;
+            font-size: 16px;
+            color: #fff;
+            background-color: #FFDC00;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        button:hover {
+            background-color: #FFD700;
+        }
+        /* Output styling */
+        .output {
+            margin-top: 20px;
+            padding: 20px;
+            border-radius: 5px;
+            background-color: #333;
+            color: #fff;
+            font-size: 16px;
+            line-height: 1.6;
+        }
+        .hit {
+            color: #2ECC40; /* Green for hits */
+        }
+        .miss {
+            color: #FFDC00; /* Yellow for misses */
+        }
+    </style>
+</head>
+
+<body>
+    <nav class="navbar">
+        <ul>
+            <li><a href="fifonew.html" id="FIFO">FIFO</a></li>
+            <li><a href="lifonew.html" id="LIFO">LIFO</a></li>
+            <li><a href="lrunew.html" id="LRU">LRU</a></li>
+            <li><a href="mrunew.html" id="MRU">MRU</a></li>
+            <li><a href="optnew.html" id="OPT">OPTIMAL</a></li>
+            <li><a href="https://arjun-vegeta.github.io/OS-LAB-mini-project/simulator">Back</a></li>
+        </ul>
+    </nav>
+
+    <div class="container">
+        <h1>MRU Page Replacement Algorithm</h1>
+        <div class="input-group">
+            <label for="capacity">Number of Page Frames:</label>
+            <input type="number" id="capacity" min="1" value="3">
+        </div>
+        <div class="input-group">
+            <label for="referenceString">Reference String (comma-separated):</label>
+            <input type="text" id="referenceString" placeholder="e.g., 2,3,5,6,3,4,6,7,8,3,9">
+        </div>
+        <button onclick="simulateMRU()">Simulate</button>
+        <div class="output" id="output"></div>
+    </div>
+
+    <script>
+        function simulateMRU() {
+            var capacity = parseInt(document.getElementById('capacity').value);
+            var referenceString = document.getElementById('referenceString').value.split(',').map(Number);
+            
+            var frames = [];
+            var hits = 0;
+            var misses = 0;
+            var output = '';
+            
+            for (var i = 0; i < referenceString.length; i++) {
+                var page = referenceString[i];
+                
+                if (frames.includes(page)) {
+                    frames.splice(frames.indexOf(page), 1);
+                    frames.unshift(page);
+                    hits++;
+                    output += frames.join(', ') + ' (Page ' + page + ' <span class="hit">Hit</span>)<br>';
+                } else {
+                    if (frames.length >= capacity) {
+                        frames.pop(); // Remove the most recently used page
+                    }
+                    frames.unshift(page); // Add the new page
+                    misses++;
+                    output += frames.join(', ') + ' (Page ' + page + ' <span class="miss">Miss</span>)<br>';
+                }
+            }
+            
+            var hitRatio = hits / referenceString.length;
+            var missRatio = misses / referenceString.length;
+            
+            output += '<br>Total Number of Hits: ' + hits + '<br>';
+            output += 'Total Number of Misses: ' + misses + '<br>';
+            output += 'Hit Ratio: ' + hitRatio.toFixed(2) + '<br>';
+            output += 'Miss Ratio: ' + missRatio.toFixed(2) + '<br>';
+            
+            document.getElementById('output').innerHTML = output;
+        }
+    </script>
+
+</body>
+</html>

@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FIFO Page Replacement Algorithm</title>
+    <style>
+        /* Styling for the page */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #303030;
+            color: #FFFFFF;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-start;
+            height: 100vh;
+            margin: 0;
+        }
+
+        /* Container styling */
+        .container {
+            width: 80%;
+            max-width: 600px;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            background-color: #424242;
+            margin-top: 20px;
+        }
+
+        /* Heading styling */
+        h1 {
+            text-align: center;
+            color: #FFD600;
+            margin-bottom: 20px;
+        }
+
+        /* Input group styling */
+        .input-group {
+            margin-bottom: 15px;
+        }
+
+        label {
+            display: block;
+            color: #FFD600;
+            margin-bottom: 5px;
+        }
+
+        input[type="number"], input[type="text"] {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #888888;
+            border-radius: 5px;
+            box-sizing: border-box;
+            background-color: #616161;
+            color: #FFFFFF;
+        }
+
+        /* Button styling */
+        button {
+            display: block;
+            width: 100%;
+            padding: 12px 0;
+            font-size: 16px;
+            color: #FFFFFF;
+            background-color: #FF6D00;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        button:hover {
+            background-color: #FF8F00;
+        }
+
+        /* Output styling */
+        .output {
+            margin-top: 20px;
+            padding: 20px;
+            border-radius: 5px;
+            background-color: #333333;
+            color: #FFFFFF;
+            font-size: 16px;
+            line-height: 1.6;
+        }
+
+        /* Styling for hits and misses */
+        .hit {
+            color: #00E676; /* Green for hits */
+        }
+
+        .miss {
+            color: #FFD600; /* Yellow for misses */
+        }
+
+        /* Navbar styling */
+        .navbar {
+            width: 100%;
+            background-color: #424242;
+            padding: 10px 0;
+        }
+
+        /* Navbar list styling */
+        .navbar ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            display: flex;
+            justify-content: center;
+        }
+
+        /* Navbar list items styling */
+        .navbar li {
+            margin: 0 10px;
+        }
+
+        /* Navbar links styling */
+        .navbar a {
+            color: #FFFFFF;
+            text-decoration: none;
+            padding: 8px 12px;
+            border-radius: 5px;
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+
+        /* Navbar link hover styling */
+        .navbar a:hover {
+            background-color: #616161;
+            color: #FFD600;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Navbar -->
+    <nav class="navbar">
+        <ul>
+            <li><a href="fifonew.html" id="FIFO">FIFO</a></li>
+            <li><a href="lifonew.html" id="LIFO">LIFO</a></li>
+            <li><a href="lrunew.html" id="LRU">LRU</a></li>
+            <li><a href="mrunew.html" id="MRU">MRU</a></li>
+            <li><a href="optnew.html" id="OPT">OPTIMAL</a></li>
+            <li><a href="https://arjun-vegeta.github.io/OS-LAB-mini-project/simulator">Back</a></li>
+        </ul>
+    </nav>
+
+    <!-- Container -->
+    <div class="container">
+        <h1>FIFO Page Replacement Algorithm</h1>
+
+        <!-- Input group -->
+        <div class="input-group">
+            <label for="capacity">Number of Page Frames:</label>
+            <input type="number" id="capacity" min="1" value="3">
+        </div>
+
+        <div class="input-group">
+            <label for="referenceString">Reference String (comma-separated):</label>
+            <input type="text" id="referenceString" placeholder="e.g., 2,3,5,6,3,4,6,7,8,3,9">
+        </div>
+
+        <button onclick="simulateFIFO()">Simulate</button>
+
+        <div class="output" id="output"></div>
+    </div>
+
+    <script>
+        function simulateFIFO() {
+            var capacity = parseInt(document.getElementById('capacity').value);
+            var referenceString = document.getElementById('referenceString').value.split(',').map(Number);
+            
+            var s = []; // List of current pages in Main Memory
+            var miss = 0;
+            var hits = 0;
+            var output = '';
+
+            for (var i = 0; i < referenceString.length; i++) {
+                var page = referenceString[i];
+                var status = '';
+
+                if (!s.includes(page)) {
+                    if (s.length === capacity) {
+                        s.shift(); // Remove the first element (oldest page)
+                    }
+                    s.push(page); // Add the new page to the end
+                    miss++;
+                    status = 'Miss';
+                } else {
+                    status = 'Hit';
+                }
+
+                output += s.join(', ') + ' (Page ' + page + ' <span class="' + status.toLowerCase() + '">' + status + '</span>)<br>';
+            }
+
+            hits = referenceString.length - miss;
+
+            output += '<br>TOTAL NUMBER OF HITS: ' + hits + '<br>';
+            output += 'TOTAL NUMBER OF MISS: ' + miss + '<br>';
+            output += 'HIT RATIO: ' + (hits / referenceString.length).toFixed(2) + '<br>';
+            output += 'MISS RATIO: ' + (1 - (hits / referenceString.length)).toFixed(2) + '<br>';
+            
+            document.getElementById('output').innerHTML = output;
+        }
+    </script>
+</body>
+
+</html>

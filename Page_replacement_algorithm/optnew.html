@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Optimal Page Replacement Algorithm</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #000;
+            color: #001f3f;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        nav {
+            width: 100%;
+            background-color: #111;
+            padding: 10px 0;
+            position: fixed;
+            top: 0;
+            left: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+        }
+        nav ul {
+            list-style: none;
+            display: flex;
+            justify-content: center;
+            margin: 0;
+            padding: 0;
+        }
+        nav ul li {
+            margin: 0 15px;
+        }
+        nav ul li a {
+            text-decoration: none;
+            color: #7FDBFF;
+            padding: 10px 15px;
+            border-radius: 5px;
+            transition: background-color 0.3s;
+        }
+        nav ul li a:hover {
+            background-color: #39CCCC;
+            color: #FFF;
+        }
+        .container {
+            margin-top: 80px; /* Offset container to account for fixed navbar */
+            width: 80%;
+            max-width: 600px;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            background-color: #222;
+            color: #fff;
+        }
+        h1 {
+            text-align: center;
+            color: #0074D9;
+            margin-bottom: 20px;
+        }
+        .input-group {
+            margin-bottom: 15px;
+        }
+        label {
+            display: block;
+            color: #7FDBFF;
+            margin-bottom: 5px;
+        }
+        input[type="number"], input[type="text"] {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #aaa;
+            border-radius: 5px;
+            box-sizing: border-box;
+            background-color: #444;
+            color: #fff;
+        }
+        button {
+            display: block;
+            width: 100%;
+            padding: 12px 0;
+            font-size: 16px;
+            color: #fff;
+            background-color: #FFDC00;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        button:hover {
+            background-color: #FFD700;
+        }
+        .output {
+            margin-top: 20px;
+            padding: 20px;
+            border-radius: 5px;
+            background-color: #333;
+            color: #fff;
+            font-size: 16px;
+            line-height: 1.6;
+        }
+        .hit {
+            color: #2ECC40; /* Green for hits */
+        }
+        .miss {
+            color: #FFDC00; /* Yellow for misses */
+        }
+    </style>
+</head>
+<body>
+    <nav>
+        <ul>
+            <li><a href="fifonew.html" id="FIFO">FIFO</a></li>
+            <li><a href="lifonew.html" id="LIFO">LIFO</a></li>
+            <li><a href="lrunew.html" id="LRU">LRU</a></li>
+            <li><a href="mrunew.html" id="MRU">MRU</a></li>
+            <li><a href="optnew.html" id="OPT">OPTIMAL</a></li>
+            <li><a href="https://arjun-vegeta.github.io/OS-LAB-mini-project/simulator">Back</a></li>
+        </ul>
+    </nav>
+
+    <div class="container">
+        <h1>Optimal Page Replacement Algorithm</h1>
+
+        <div class="input-group">
+            <label for="frameCount">Number of Frames:</label>
+            <input type="number" id="frameCount" min="1" value="3">
+        </div>
+
+        <div class="input-group">
+            <label for="referenceString">Reference String (comma-separated):</label>
+            <input type="text" id="referenceString" placeholder="e.g., 2,3,5,6,3,4,6,7,8,3,9">
+        </div>
+
+        <button onclick="simulateOptimal()">Simulate</button>
+
+        <div class="output" id="output"></div>
+    </div>
+
+    <script>
+        function simulateOptimal() {
+            var frameCount = parseInt(document.getElementById('frameCount').value);
+            var referenceString = document.getElementById('referenceString').value.split(',').map(Number);
+            
+            var frames = [];
+            var pageFaults = 0;
+            var pageHits = 0;
+            var output = '';
+            
+            for (var i = 0; i < referenceString.length; i++) {
+                var page = referenceString[i];
+                
+                if (!frames.includes(page)) {
+                    if (frames.length < frameCount) {
+                        frames.push(page);
+                    } else {
+                        var futureReferences = {};
+                        for (var j = i + 1; j < referenceString.length; j++) {
+                            if (!futureReferences[referenceString[j]]) {
+                                futureReferences[referenceString[j]] = j;
+                            }
+                        }
+                        var pageToReplace = frames[0];
+                        var maxFutureReference = -1;
+                        for (var k = 0; k < frames.length; k++) {
+                            if (!futureReferences[frames[k]]) {
+                                pageToReplace = frames[k];
+                                break;
+                            }
+                            if (futureReferences[frames[k]] > maxFutureReference) {
+                                maxFutureReference = futureReferences[frames[k]];
+                                pageToReplace = frames[k];
+                            }
+                        }
+                        frames[frames.indexOf(pageToReplace)] = page;
+                    }
+                    pageFaults++;
+                    output += frames.join(', ') + ' (Page ' + page + ' <span class="miss">Miss</span>)<br>';
+                } else {
+                    pageHits++;
+                    output += frames.join(', ') + ' (Page ' + page + ' <span class="hit">Hit</span>)<br>';
+                }
+            }
+            
+            var hitRatio = (pageHits / referenceString.length).toFixed(2);
+            var missRatio = (1 - hitRatio).toFixed(2);
+            
+            output += '<br>Total Number of Hits: ' + pageHits + '<br>';
+            output += 'Total Number of Miss: ' + pageFaults + '<br>';
+            output += 'Hit Ratio: ' + hitRatio + '<br>';
+            output += 'Miss Ratio: ' + missRatio + '<br>';
+            
+            document.getElementById('output').innerHTML = output;
+        }
+    </script>
+</body>
+</html>

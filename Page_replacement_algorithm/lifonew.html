@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LIFO Page Replacement Algorithm</title>
+    <style>
+        /* Base styles */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #000;
+            color: #001f3f;
+            margin: 0;
+            padding: 0;
+        }
+
+        /* Container styling */
+        .container {
+            width: 80%;
+            max-width: 600px;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(131, 29, 29, 0.1);
+            background-color: #222;
+            margin: auto;
+        }
+
+        /* Heading styling */
+        h1 {
+            text-align: center;
+            color: #0074D9;
+            margin-bottom: 20px;
+        }
+
+        /* Input group styling */
+        .input-group {
+            margin-bottom: 15px;
+        }
+
+        label {
+            display: block;
+            color: #7FDBFF;
+            margin-bottom: 5px;
+        }
+
+        input[type="number"],
+        input[type="text"] {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #aaa;
+            border-radius: 5px;
+            box-sizing: border-box;
+            background-color: #444;
+            color: #fff;
+        }
+
+        /* Button styling */
+        button {
+            display: block;
+            width: 100%;
+            padding: 12px 0;
+            font-size: 16px;
+            color: #fff;
+            background-color: #FFDC00;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        button:hover {
+            background-color: #FFD700;
+        }
+
+        /* Output styling */
+        .output {
+            margin-top: 20px;
+            padding: 20px;
+            border-radius: 5px;
+            background-color: #333;
+            color: #fff;
+            font-size: 16px;
+            line-height: 1.6;
+        }
+
+        .hit {
+            color: #2ECC40; /* Green for hits */
+        }
+
+        .miss {
+            color: #FFDC00; /* Yellow for misses */
+        }
+
+        /* Navbar styling */
+        .navbar {
+            background-color: #424242;
+            padding: 10px 0;
+            margin-bottom: 20px; /* Margin below the navbar */
+        }
+
+        /* Navbar list */
+        .navbar ul {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+        }
+
+        /* Navbar list items */
+        .navbar li {
+            margin: 0 10px; /* Margin between list items */
+        }
+
+        /* Navbar links */
+        .navbar a {
+            color: #fff; /* White text color */
+            text-decoration: none;
+            padding: 10px 15px; /* Increased padding */
+            border-radius: 5px;
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+
+        /* Navbar link hover styling */
+        .navbar a:hover {
+            background-color: #616161;
+            color: #FFD600; /* Yellow color on hover */
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Navbar -->
+    <nav class="navbar">
+        <ul>
+            <li><a href="fifonew.html" id="FIFO">FIFO</a></li>
+            <li><a href="lifonew.html" id="LIFO">LIFO</a></li>
+            <li><a href="lrunew.html" id="LRU">LRU</a></li>
+            <li><a href="mrunew.html" id="MRU">MRU</a></li>
+            <li><a href="optnew.html" id="OPT">OPTIMAL</a></li>
+            <li><a href="https://arjun-vegeta.github.io/OS-LAB-mini-project/simulator">Back</a></li>
+        </ul>
+    </nav>
+
+    <!-- LIFO Page Replacement Algorithm Simulation -->
+    <div class="container">
+        <h1>LIFO Page Replacement Algorithm Simulation</h1>
+
+        <div class="input-group">
+            <label for="frameCount">Number of Frames:</label>
+            <input type="number" id="frameCount" min="1" value="3">
+        </div>
+
+        <div class="input-group">
+            <label for="referenceString">Reference String (comma-separated):</label>
+            <input type="text" id="referenceString" placeholder="e.g., 2,3,5,6,3,4,6,7,8,3,9">
+        </div>
+
+        <button onclick="simulateLIFO()">Simulate LIFO</button>
+
+        <div class="output" id="output"></div>
+    </div>
+
+    <!-- Script to simulate LIFO -->
+    <script>
+        function simulateLIFO() {
+            var frameCount = parseInt(document.getElementById('frameCount').value);
+            var referenceString = document.getElementById('referenceString').value.split(',').map(Number);
+            
+            var frames = [];
+            var pageFaults = 0;
+            var pageHits = 0;
+            var output = '';
+
+            for (var i = 0; i < referenceString.length; i++) {
+                var page = referenceString[i];
+                
+                if (!frames.includes(page)) {
+                    if (frames.length < frameCount) {
+                        frames.push(page);
+                    } else {
+                        frames.pop(); // Remove the last (oldest) page from frames (LIFO)
+                        frames.push(page); // Add the new page to frames
+                    }
+                    pageFaults++;
+                    output += frames.join(', ') + ' (Page ' + page + ' <span class="miss">Miss</span>)<br>';
+                } else {
+                    pageHits++;
+                    output += frames.join(', ') + ' (Page ' + page + ' <span class="hit">Hit</span>)<br>';
+                }
+            }
+            
+            var hitRatio = (pageHits / referenceString.length).toFixed(2);
+            var missRatio = (1 - hitRatio).toFixed(2);
+            
+            output += '<br>Total Number of Hits: ' + pageHits + '<br>';
+            output += 'Total Number of Miss: ' + pageFaults + '<br>';
+            output += 'Hit Ratio: ' + hitRatio + '<br>';
+            output += 'Miss Ratio: ' + missRatio + '<br>';
+
+            document.getElementById('output').innerHTML = output;
+        }
+    </script>
+</body>
+
+</html>

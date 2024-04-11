@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LRU Page Replacement Algorithm</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #000;
+            color: #fff;
+            margin: 0;
+            padding: 0;
+        }
+        nav {
+            background-color: #222;
+            padding: 10px 0;
+        }
+        nav ul {
+            list-style-type: none;
+            margin: 0;
+            padding: 0;
+            text-align: center;
+        }
+        nav ul li {
+            display: inline;
+            margin-right: 10px;
+        }
+        nav ul li a {
+            color: #FF851B;
+            text-decoration: none;
+            padding: 8px 12px;
+            border-radius: 5px;
+            transition: background-color 0.3s ease;
+        }
+        nav ul li a:hover {
+            background-color: #444;
+        }
+        .container {
+            width: 80%;
+            max-width: 600px;
+            margin: 20px auto;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            background-color: #222;
+        }
+        h1 {
+            text-align: center;
+            color: #FF4136;
+            margin-bottom: 20px;
+        }
+        .input-group {
+            margin-bottom: 15px;
+        }
+        label {
+            display: block;
+            color: #FF851B;
+            margin-bottom: 5px;
+        }
+        input[type="number"], input[type="text"] {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #aaa;
+            border-radius: 5px;
+            box-sizing: border-box;
+            background-color: #444;
+            color: #fff;
+        }
+        button {
+            display: block;
+            width: 100%;
+            padding: 12px 0;
+            font-size: 16px;
+            color: #fff;
+            background-color: #FFDC00;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        button:hover {
+            background-color: #FFD700;
+        }
+        .output {
+            margin-top: 20px;
+            padding: 20px;
+            border-radius: 5px;
+            background-color: #333;
+            color: #fff;
+            font-size: 16px;
+            line-height: 1.6;
+        }
+        .hit {
+            color: #2ECC40; /* Green for hits */
+        }
+        .miss {
+            color: #FFDC00; /* Yellow for misses */
+        }
+    </style>
+</head>
+<body>
+
+    <nav>
+        <ul>
+            <li><a href="fifonew.html" id="FIFO">FIFO</a></li>
+            <li><a href="lifonew.html" id="LIFO">LIFO</a></li>
+            <li><a href="lrunew.html" id="LRU">LRU</a></li>
+            <li><a href="mrunew.html" id="MRU">MRU</a></li>
+            <li><a href="optnew.html" id="OPT">OPTIMAL</a></li>
+            <li><a href="https://arjun-vegeta.github.io/OS-LAB-mini-project/simulator">Back</a></li>
+        </ul>
+    </nav>
+    
+    <div class="container">
+        <h1>LRU Page Replacement Algorithm</h1>
+
+        <div class="input-group">
+            <label for="capacity">Number of Page Frames:</label>
+            <input type="number" id="capacity" min="1" value="3">
+        </div>
+
+        <div class="input-group">
+            <label for="referenceString">Reference String (comma-separated):</label>
+            <input type="text" id="referenceString" placeholder="e.g., 2,3,5,6,3,4,6,7,8,3,9">
+        </div>
+
+        <button onclick="simulateLRU()">Simulate</button>
+
+        <div class="output" id="output"></div>
+    </div>
+
+    <script>
+        function simulateLRU() {
+            var capacity = parseInt(document.getElementById('capacity').value);
+            var referenceString = document.getElementById('referenceString').value.split(',').map(Number);
+            
+            var s = []; // List of current pages in Main Memory
+            var miss = 0;
+            var hits = 0;
+            var output = '';
+            
+            for (var i = 0; i < referenceString.length; i++) {
+                var page = referenceString[i];
+                
+                if (!s.includes(page)) {
+                    if (s.length === capacity) {
+                        s.shift();
+                    }
+                    s.push(page);
+                    miss++;
+                    output += s.join(', ') + ' (Page ' + page + ' <span class="miss">Miss</span>)<br>';
+                } else {
+                    s.splice(s.indexOf(page), 1);
+                    s.push(page);
+                    hits++;
+                    output += s.join(', ') + ' (Page ' + page + ' <span class="hit">Hit</span>)<br>';
+                }
+            }
+            
+            var hitRatio = hits / referenceString.length;
+            var missRatio = 1 - hitRatio;
+            
+            output += '<br>TOTAL NUMBER OF HITS: ' + hits + '<br>';
+            output += 'TOTAL NUMBER OF MISS: ' + miss + '<br>';
+            output += 'HIT RATIO: ' + hitRatio.toFixed(2) + '<br>';
+            output += 'MISS RATIO: ' + missRatio.toFixed(2) + '<br>';
+            
+            document.getElementById('output').innerHTML = output;
+        }
+    </script>
+
+</body>
+</html>
