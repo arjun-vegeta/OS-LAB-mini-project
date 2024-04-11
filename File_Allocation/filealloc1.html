@@ -1,0 +1,453 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>File Allocation</title>
+<style>
+    body {
+        font-family: Montserrat, sans-serif;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        padding-top: 20px;
+        background-color: black;
+        color: blue;
+    }
+    h1,
+	h2,
+	h3 {
+    text-align: center;
+    color: blue;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+    animation: heading-glow 2s infinite alternate;
+	}
+    .container {
+        display: flex;
+        margin-bottom: 20px;
+    }
+    .input-group {
+        margin-right: 20px;
+    }
+    .input-group label {
+        color: blue;
+		font-weight: bold;
+		text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+    }
+    .input-group input {
+        background-color: black;
+        color: blue;
+        border: 1px solid blue;
+        padding: 5px;
+    }
+    .disk {
+        display: flex;
+        flex-wrap: wrap;
+        flex-direction: column;
+        align-items: center;
+        border: 2px solid blue;
+        margin-bottom: 20px;
+    }
+    .row {
+        display: flex;
+    }
+    .block {
+        width: 20px;
+        height: 20px;
+        border: 1px solid blue;
+        margin: 2px;
+        background-color: black;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 10px;
+        color: blue;
+        animation: glow 1s infinite alternate;
+    }
+    .error {
+        color: red;
+        font-size: 18px;
+        display: none;
+    }
+    .fat {
+        margin-top: 20px;
+        color: blue;
+    }
+    .fat table {
+        border-collapse: collapse;
+        width: 100%;
+        border: 2px solid blue;
+        box-shadow: 0 0 10px blue;
+    }
+    .fat table th,
+    .fat table td {
+        padding: 10px;
+        text-align: center;
+        border-bottom: 1px solid blue;
+    }
+
+    .fat table th {
+        background: linear-gradient(to bottom right, blue, black);
+        color: blue;
+        font-weight: bold;
+        text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+    }
+
+    .fat table tr:nth-child(even) {
+        background-color: black;
+    }
+
+    .fat table tr:nth-child(odd) {
+        background-color: black;
+    }
+
+    @keyframes glow {
+        0% {
+            border-color: blue;
+        }
+        100% {
+            border-color: lightblue;
+        }
+    }
+
+    button {
+        padding: 10px 20px;
+        background: linear-gradient(to bottom right, blue, black);
+        color: blue;
+        border: none;
+        border-radius: 5px;
+        font-size: 16px;
+        font-weight: bold;
+        cursor: pointer;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    button:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 0 20px rgba(0, 0, 255, 0.8);
+    }
+
+    .result {
+        background-color: black;
+        padding: 20px;
+        border-radius: 5px;
+        box-shadow: 0 0 20px rgba(0, 0, 0, 0.6);
+        animation: result-glow 2s infinite alternate;
+    }
+
+    @keyframes result-glow {
+        0% {
+            box-shadow: 0 0 20px rgba(0, 0, 255, 0.3);
+        }
+
+        100% {
+            box-shadow: 0 0 20px rgba(0, 0, 255, 0.6);
+        }
+    }
+	 #strategy {
+        padding: 10px 20px;
+        background: linear-gradient(to bottom right, blue, black);
+        color: blue;
+        border: none;
+        border-radius: 5px;
+        font-size: 16px;
+        font-weight: bold;
+        cursor: pointer;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    #strategy:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 0 20px rgba(0, 0, 255, 0.8);
+    }
+
+/* Back button styling */
+.Back {
+		padding: 10px 20px;
+        background: linear-gradient(to bottom right, blue, black);
+        color: blue;
+        border: none;
+        border-radius: 5px;
+        font-size: 16px;
+        font-weight: bold;
+        cursor: pointer;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+/* Button hover effect */
+Back:hover {
+    background-color: #0056b3; /* Darker blue on hover */
+}
+</style>
+</head>
+<body>
+<nav class="navbar">
+		<a href="fileinfo.html" class = "Back">Back</a>
+    </nav>
+<h1>Simulating File Allocation</h1>
+
+<div class="container">
+    <div class="input-group">
+        <label for="blockSize">Block Size:</label>
+        <input type="number" id="blockSize" value="50" onchange="initializeDisk()">
+    </div>
+    <div class="input-group">
+        <label for="numBlocks">Number of Blocks:</label>
+        <input type="number" id="numBlocks" value="25" onchange="initializeDisk()">
+    </div>
+</div>
+
+<div class="container">
+    <div class="input-group">
+        <label for="strategy">Allocation Strategy:</label>
+        <select id="strategy" onchange = "initializeDisk()">
+            <option value="sequential">Sequential</option>
+            <option value="linked">Linked</option>
+            <option value="indexed">Indexed</option>
+        </select>
+    </div>
+    <div class="input-group">
+        <label for="fileSize">File Size:</label>
+        <input type="number" id="fileSize" value="100">
+        <label for="fileCode">File Code:</label>
+        <input type="number" id="fileCode">
+        <button onclick="allocateFile()">Allocate File</button>
+	</div>
+</div>
+<div class="container">
+    <div class="input-group">
+		<label for="deallocateFileCode">Deallocate File Code:</label>
+        <input type="number" id="deallocateFileCode">
+        <button onclick="deallocateFile()">Deallocate File</button>
+    </div>
+</div>
+<h3>Disk</h3>
+<div class="disk" id="disk"></div>
+<div class="error" id="error">&#9888; SPACE EXCEEDED</div>
+<h3>File Allocation Table</h3>
+<div class="fat" id="fat"></div>
+
+<script>
+    var blockSize = parseInt(document.getElementById('blockSize').value);
+    var numBlocks = parseInt(document.getElementById('numBlocks').value);
+    var occupiedBlocks = [];
+    var disk = document.getElementById('disk');
+	var fat = document.getElementById('fat');
+    // Function to initialize disk blocks
+    function initializeDisk() {
+        disk.innerHTML = '';
+		fat.innerHTML = '';
+        blockSize = parseInt(document.getElementById('blockSize').value);
+        numBlocks = parseInt(document.getElementById('numBlocks').value);
+        var blocksPerRow = Math.floor(Math.sqrt(numBlocks));
+        var remainingBlocks = numBlocks % blocksPerRow;
+        var numRows = Math.ceil(numBlocks / blocksPerRow);
+        occupiedBlocks = [];
+        for (var i = 0; i < numRows; i++) {
+            var row = document.createElement('div');
+            row.className = 'row';
+            for (var j = 0; j < blocksPerRow; j++) {
+                var block = document.createElement('div');
+                block.className = 'block';
+                block.style.width = blockSize + 'px';
+                block.style.height = blockSize + 'px';
+                block.style.margin = '2px';
+                block.style.border = '1px solid #000';
+                block.style.fontSize = (blockSize / 4) + 'px'; // Adjust font size based on block size
+                var blockNumber = (i * blocksPerRow) + j;
+                if (blockNumber < numBlocks) {
+                    block.textContent = blockNumber;
+                }
+                row.appendChild(block);
+            }
+            disk.appendChild(row);
+        }
+		 // Initialize FAT
+        var fatTable = document.createElement('table');
+        fatTable.innerHTML = '<tr><th>File Code</th><th>Start/Index</th><th>Length/End/Contents of Index Block</th></tr>';
+        fat.appendChild(fatTable);
+    }
+
+    // Function to allocate file using sequential strategy
+    function allocateSequential(numBlocksNeeded, fileCode) {
+	    var start = 0, found = 1;
+	    for(var i = 0; i<numBlocks; i++)		{
+		if(!occupiedBlocks.includes(i)) {
+			start = i;
+			found = 1;
+			for(var j = i+1; j<i+numBlocksNeeded; j++) {
+				if(occupiedBlocks.includes(j)) {
+					found = 0;
+					break;
+                }
+			}
+			if(start+numBlocksNeeded>numBlocks) {
+			 found = 0;
+			break;}
+			if(found==1) {
+				break; 
+			}
+		 }
+		 }
+            if(found==1) {
+            for (var i = start; i < start + numBlocksNeeded; i++) {
+		occupiedBlocks.push(i);
+                document.getElementsByClassName('block')[i].style.backgroundColor = 'white';
+                document.getElementsByClassName('block')[i].textContent = fileCode;
+                }
+		var fatTable = document.querySelector('.fat table');
+        var row = fatTable.insertRow(-1);
+        var cell1 = row.insertCell(0);
+        var cell2 = row.insertCell(1);
+        var cell3 = row.insertCell(2);
+        cell1.textContent = fileCode;
+        cell2.textContent = start;
+        cell3.textContent = numBlocksNeeded;
+	   }
+	   else {
+		displayErrorMessage('SPACE EXCEEDED');
+	   }
+    }
+
+    // Function to allocate file using linked strategy
+    function allocateLinked(numBlocksNeeded, fileCode) {
+	    var first = -1, prev = 0, end = 0;
+            for (var i = 0; i < numBlocks; i++) {
+                if (!occupiedBlocks.includes(i)) {
+                    occupiedBlocks.push(i);
+                    document.getElementsByClassName('block')[i].style.backgroundColor = 'white';
+                    document.getElementsByClassName('block')[i].textContent = fileCode;
+		    if(first==-1) {
+			first = i;
+		    }
+		    else {
+		    document.getElementsByClassName('block')[prev].textContent += ',' + i; }
+                    numBlocksNeeded--;
+                    if (numBlocksNeeded === 0) {
+						end = i;
+                        break;
+                    }
+		    prev = i;
+                }
+            }
+		var fatTable = document.querySelector('.fat table');
+        var row = fatTable.insertRow(-1);
+        var cell1 = row.insertCell(0);
+        var cell2 = row.insertCell(1);
+        var cell3 = row.insertCell(2);
+        cell1.textContent = fileCode;
+        cell2.textContent = first;
+        cell3.textContent = end;
+    }
+
+    // Function to allocate file using indexed strategy
+    function allocateIndexed(numBlocksNeeded, fileCode) {
+	    var index = 0;
+		var blocks = '';
+	    for(var i = 0; i<numBlocks; i++) {
+		if(!occupiedBlocks.includes(i)) {
+			occupiedBlocks.push(i);
+			index = i;
+			document.getElementsByClassName('block')[i].style.backgroundColor = 'pink';
+                    	document.getElementsByClassName('block')[i].textContent = fileCode;
+			break;
+		}
+	    }
+            for (var i = 0; i < numBlocks; i++) {
+                if (!occupiedBlocks.includes(i)) {
+                    occupiedBlocks.push(i);
+					blocks += ' ' + i;
+                    document.getElementsByClassName('block')[i].style.backgroundColor = 'white';
+                    document.getElementsByClassName('block')[i].textContent = fileCode;
+		    numBlocksNeeded--;
+                    if (numBlocksNeeded === 0) {
+                        break;
+                    }
+                }
+            }
+		var fatTable = document.querySelector('.fat table');
+        var row = fatTable.insertRow(-1);
+        var cell1 = row.insertCell(0);
+        var cell2 = row.insertCell(1);
+        var cell3 = row.insertCell(2);
+        cell1.textContent = fileCode;
+        cell2.textContent = index;
+        cell3.textContent = blocks;
+    }
+
+    // Function to allocate file based on selected strategy
+    function allocateFile() {
+        var fileSize = parseInt(document.getElementById('fileSize').value);
+        var fileCode = parseInt(document.getElementById('fileCode').value);
+        var strategy = document.getElementById('strategy').value;
+	var numBlocksNeeded = Math.ceil(fileSize / blockSize);
+        if (numBlocksNeeded > numBlocks - occupiedBlocks.length) {
+		displayErrorMessage('SPACE EXCEEDED');
+	}
+	else {
+        switch (strategy) {
+            case 'sequential':
+                allocateSequential(numBlocksNeeded, fileCode);
+                break;
+            case 'linked':
+                allocateLinked(numBlocksNeeded, fileCode);
+                break;
+            case 'indexed':
+                allocateIndexed(numBlocksNeeded, fileCode);
+                break;
+            default:
+                break;
+        }
+	}
+    }
+
+
+       // Function to deallocate file
+    function deallocateFile() {
+    	var fileCode = parseInt(document.getElementById('deallocateFileCode').value);
+   	var deallocatedBlocks = 0;
+
+	for (var i = 0; i < occupiedBlocks.length; i++) {
+        	var block = document.getElementsByClassName('block')[occupiedBlocks[i]];
+
+	        if (block.textContent == fileCode || block.textContent.split(',')[0] == fileCode) {
+	            block.textContent = occupiedBlocks[i];
+				block.style.backgroundColor = 'black';
+        	    occupiedBlocks.splice(i, 1);
+	            i--; // Adjust index due to removed element
+        	    deallocatedBlocks++;
+	        }
+    }
+	// Remove entry from FAT
+    var fatTable = document.querySelector('.fat table');
+    for (var i = 0; i < fatTable.rows.length; i++) {
+        var row = fatTable.rows[i];
+        if (parseInt(row.cells[0].textContent) === fileCode) {
+            fatTable.deleteRow(i);
+        }
+    }
+    if (deallocatedBlocks === 0) {
+        displayErrorMessage('FILE NOT FOUND');
+    }
+}
+
+
+    // Function to display error message
+    function displayErrorMessage(message) {
+        var errorElement = document.getElementById('error');
+        errorElement.textContent = message;
+        errorElement.style.display = 'block';
+        setTimeout(function () {
+            errorElement.style.display = 'none';
+        }, 2000);
+    }
+
+    // Initialize disk
+    initializeDisk();
+</script>
+
+</body>
+</html>

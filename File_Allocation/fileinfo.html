@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>File Allocation Strategies</title>
+    <!-- Link to external CSS file for styling -->
+    <link rel="stylesheet" href="stylesheet.css">
+    
+
+    <!-- Link to Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@300;700&display=swap" rel="stylesheet">
+</head>
+
+<body>
+    <!-- Navigation bar -->
+    <nav class="navbar">
+        <ul>
+            <li><a href="https://arjun-vegeta.github.io/OS-LAB-mini-project/#info">Back</a></li>
+            <li><a href="filealloc1.html">Simulation</a></li>
+		</ul>
+    </nav>
+    <div class = "header-container">
+        <h2> </h2>
+        </div>
+    <div class = "header-container">
+        <h2> File Allocation Strategies </h2>
+        </div>
+
+    
+
+    <div class="content">
+
+        <!-- Description and examples of disk scheduling algorithms -->
+        <div class="algorithms-info">
+            <!-- Sequential Allocation -->
+            <section id="sequential">
+                <h3>1. Sequential Allocation</h3>
+                <p>
+                    Sequential file allocation involves storing data in a continuous sequence within a file, where records are placed one after another without any gaps, enabling straightforward access but making insertion and deletion operations less efficient due to the need for shifting data.
+                    <ul>
+                        <li><strong>Advantage:</strong> Sequential file allocation allows for efficient sequential access, making it suitable for applications where data is primarily read or written sequentially, such as batch processing systems.</li>
+                        <li><strong>Disadvantage:</strong> Insertion and deletion operations in sequential file allocation can be inefficient and time-consuming, as they may require shifting large amounts of data to accommodate changes.</li>
+                    </ul>
+                </p>
+            </section>
+
+            <!-- Linked Allocation -->
+            <section id="linked">
+                <h3>2. Linked Allocation</h3>
+                <p>
+                    Linked file allocation utilizes pointers to connect records scattered throughout the storage medium, enabling efficient insertion and deletion operations but potentially leading to increased overhead due to the need for maintaining and traversing pointers.
+                    <ul>
+                        <li><strong>Advantage:</strong> Linked file allocation facilitates efficient insertion and deletion operations, as records can be easily added or removed without the need to shift large amounts of data, making it suitable for dynamic data structures.</li>
+                        <li><strong>Disadvantage:</strong> Linked file allocation may incur additional overhead due to the storage space required for pointers and the traversal overhead when accessing records, potentially impacting performance, especially for large datasets.
+
+</li>
+                    </ul>
+                </p>
+            </section>
+
+            <!-- Indexed Allocation -->
+            <section id="indexed">
+                <h3>3. Indexed Allocation</h3>
+                <p>
+                    Indexed file allocation maintains a separate index structure containing pointers to the locations of records within the file, enabling fast access to specific records based on keys but introducing overhead for maintaining and updating the index structure.
+                    <ul>
+                        <li><strong>Advantage:</strong> Indexed file allocation maintains a separate index structure containing pointers to the locations of records within the file, enabling fast access to specific records based on keys but introducing overhead for maintaining and updating the index structure.</li>
+                        <li><strong>Disadvantage:</strong> Indexed file allocation requires additional storage space for maintaining the index structure, and updating the index can incur overhead, potentially impacting performance and storage efficiency, particularly for large datasets.</li>
+                    </ul>
+                </p>                
+            </section>
+        </div>
+    </div>
+
+</body>
+
+</html>
