@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Memory Allocation Visualization</title>
+
+  <!-- Bootstrap CSS -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css">
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;700&display=swap" rel="stylesheet">
+
+  <!-- Font Awesome Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+
+  <style>
+    body {
+      background-color: #1c1c1c;
+      color: #fff;
+      font-family: 'Montserrat', sans-serif;
+    }
+
+    .container {
+      text-align: center;
+      margin-top: 50px;
+    }
+
+    .input-group {
+      margin-bottom: 20px;
+    }
+
+    .input-group label {
+      font-weight: bold;
+      margin-right: 10px;
+    }
+
+    .input-group input[type="number"] {
+      padding: 10px 15px;
+      border: none;
+      border-radius: 4px;
+      background-color: #333;
+      color: #fff;
+      transition: background-color 0.3s ease;
+    }
+
+    .input-group input[type="number"]:focus {
+      background-color: #444;
+      outline: none;
+    }
+
+    .btn {
+      background-color: #007bff;
+      color: #fff;
+      padding: 15px 30px;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      font-weight: bold;
+      transition: background-color 0.3s ease, transform 0.3s ease;
+    }
+
+    .btn:hover {
+      background-color: #0056b3;
+      transform: translateY(-3px);
+    }
+
+    #block-container {
+      display: flex;
+      justify-content: center;
+      margin-bottom: 20px;
+      width: 100%;
+      overflow-x: auto;
+    }
+
+    .block {
+      background-color: #007bff;
+      color: #fff;
+      padding: 10px;
+      margin: 5px;
+      border-radius: 4px;
+      text-align: center;
+      font-weight: bold;
+      flex-shrink: 0; /* Prevent blocks from shrinking */
+      transition: background-color 0.3s ease, transform 0.3s ease;
+    }
+
+    .block:hover {
+      background-color: #0056b3;
+      transform: translateY(-3px);
+    }
+
+    .allocated {
+      background-color: #28a745;
+    }
+
+    .allocated:hover {
+      background-color: #1e7e34;
+    }
+
+    #allocation-log {
+      max-height: 300px;
+      overflow-y: auto;
+    }
+
+    #allocation-log table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+
+    #allocation-log th,
+    #allocation-log td {
+      padding: 10px;
+      text-align: left;
+      border-bottom: 1px solid #333;
+    }
+
+    #allocation-log th {
+      background-color: #007bff;
+    }
+
+    #allocation-log tr:hover {
+      background-color: #333;
+    }
+    
+    #allocation-log table {
+      width: 100%;
+      border-collapse: collapse;
+      background-color: #333;
+      color: #fff;
+    }
+
+    #allocation-log th,
+    #allocation-log td {
+      padding: 10px;
+      text-align: left;
+      border-bottom: 1px solid #555;
+    }
+
+    #allocation-log th {
+      background-color: #007bff;
+      font-weight: bold;
+    }
+
+    #allocation-log tr:nth-child(even) {
+      background-color: #444;
+    }
+
+    #allocation-log tr:hover {
+      background-color: #555;
+    }
+    nav {
+    background-color: #333;
+    /* Dark gray background */
+    padding: 10px 20px;
+    /* Padding for spacing */
+    position: fixed;
+    /* Fixed position at the top */
+    width: 100%;
+    /* Full-width navbar */
+    top: 0;
+    /* Position at the top of the page */
+    z-index: 1000;
+    /* Ensure navbar is on top */
+}
+
+/* Navigation list styles */
+nav ul {
+    list-style: none;
+    /* Remove default list bullets */
+    margin: 0;
+    /* Remove default margins */
+    padding: 0;
+    /* Remove default padding */
+    display: flex;
+    /* Use flexbox to align items */
+    justify-content: center;
+    /* Center items horizontally */
+}
+
+/* Navigation links styles */
+nav ul li {
+    margin-right: 20px;
+    /* Space between list items */
+}
+
+nav ul li:last-child {
+    margin-right: 0;
+    /* Remove margin from last item */
+}
+
+nav ul li a {
+    color: #fff;
+    /* White text color */
+    text-decoration: none;
+    /* Remove text underline */
+    font-weight: bold;
+    /* Bold text */
+    font-size: 16px;
+    /* Text size */
+    padding: 10px 15px;
+    /* Padding for spacing */
+    border-radius: 5px;
+    /* Rounded corners */
+    transition: background-color 0.3s, color 0.3s;
+    /* Smooth transition */
+}
+
+/* Navigation links hover effect */
+nav ul li a:hover {
+    background-color: #007BFF;
+    /* Blue background color on hover */
+    color: #fff;
+    /* White text color on hover */
+}
+  </style>
+</head>
+
+
+<body>
+    <nav class="navbar">
+        <ul>
+
+            <li><a href="mft.html" id="first-fit">MFT</a></li>
+            <li><a href="mvt.html" id="worst-fit">MVT</a></li>
+            <li><a href="javascript:history.back()">Back</a></li>
+        </ul>
+    </nav>
+    <div class="container">
+      <h1 class="mb-4 text-center">Memory Allocation Visualization-MVT</h1>
+  
+      <div class="input-group mb-3">
+        <label for="total-memory" class="input-group-text">Total Memory Size:</label>
+        <input type="number" id="total-memory" class="form-control">
+      </div>
+      <button onclick="initializeMemory()" class="btn btn-primary mb-4"><i class="fas fa-memory"></i> Initialize Memory</button>
+  
+      <div id="block-container" class="mb-4"></div>
+  
+      <h3 class="mb-3 text-center">Process Allocation</h3>
+  
+      <div class="input-group mb-3">
+        <label for="process-size" class="input-group-text">Process Size:</label>
+        <input type="number" id="process-size" class="form-control">
+      </div>
+      <button onclick="allocateProcess()" class="btn btn-success mb-4"><i class="fas fa-plus"></i> Allocate Process</button>
+  
+      <div id="allocation-log" class="table-responsive">
+        <table class="table table-bordered table-hover">
+          <thead class="thead-dark">
+            <tr>
+              <th>Process Size</th>
+              <th>Remaining Memory</th>
+            </tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+      </div>
+    </div>
+  
+    <!-- Bootstrap JS and jQuery -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
+  
+    <script>
+      var memoryBlocks = [];
+      var totalMemorySize = 0;
+  
+      function initializeMemory() {
+        var blockContainer = document.getElementById("block-container");
+        blockContainer.innerHTML = "";
+  
+        var totalMemorySizeInput = document.getElementById("total-memory");
+        totalMemorySize = parseInt(totalMemorySizeInput.value);
+  
+        if (isNaN(totalMemorySize) || totalMemorySize <= 0) {
+          alert("Please enter a valid positive number for the total memory size.");
+          return;
+        }
+  
+        var block = document.createElement("div");
+        block.className = "block";
+        block.style.width = totalMemorySize + "px";
+        block.style.height = "50px";
+        block.innerHTML = totalMemorySize;
+  
+        blockContainer.appendChild(block);
+        memoryBlocks = [{ size: totalMemorySize, allocatedSize: 0, element: block }];
+      }
+  
+      function allocateProcess() {
+        var processSize = parseInt(document.getElementById("process-size").value);
+        var allocationLogTable = document.querySelector("#allocation-log tbody");
+  
+        for (var i = 0; i < memoryBlocks.length; i++) {
+          if (memoryBlocks[i].allocatedSize === 0 && memoryBlocks[i].size >= processSize) {
+            memoryBlocks[i].allocatedSize = processSize;
+            memoryBlocks[i].element.style.width = processSize + "px";
+            memoryBlocks[i].element.innerHTML = processSize;
+            memoryBlocks[i].element.classList.add("allocated");
+  
+            if (memoryBlocks[i].size > processSize) {
+              var remainingSize = memoryBlocks[i].size - processSize;
+              var remainingBlock = document.createElement("div");
+              remainingBlock.className = "block";
+              remainingBlock.style.width = remainingSize + "px";
+              remainingBlock.style.height = "50px";
+              remainingBlock.innerHTML = remainingSize;
+  
+              var blockContainer = document.getElementById("block-container");
+              blockContainer.insertBefore(remainingBlock, memoryBlocks[i].element.nextSibling);
+  
+              memoryBlocks.splice(i + 1, 0, { size: remainingSize, allocatedSize: 0, element: remainingBlock });
+            }
+  
+            var newRow = allocationLogTable.insertRow(-1);
+            var processCell = newRow.insertCell(0);
+            var remainingMemoryCell = newRow.insertCell(1);
+  
+            processCell.textContent = processSize;
+            remainingMemoryCell.textContent = totalMemorySize - processSize;
+  
+            totalMemorySize -= processSize;
+            return;
+          }
+        }
+  
+        var newRow = allocationLogTable.insertRow(-1);
+        var errorCell = newRow.insertCell(0);
+        errorCell.colSpan = 2;
+        errorCell.textContent = "No available block found to allocate process of size " + processSize;
+      }
+    </script>
+  </body>
+</html>

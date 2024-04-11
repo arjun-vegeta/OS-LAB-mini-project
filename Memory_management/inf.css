@@ -1,0 +1,135 @@
+body {
+    font-family: Arial, sans-serif;
+    background: #0d0d0d;
+    color: #e0e0e0;
+    margin: 0;
+    padding: 0;
+}
+
+/* Container Styles */
+.container {
+    max-width: 900px;
+    margin: 50px auto;
+    padding: 40px;
+    background: #1a1a1a;
+    border-radius: 10px;
+    box-shadow: 0 0 30px rgba(0, 0, 0, 0.8);
+    animation: container-glow 3s infinite alternate;
+}
+
+/* Image Styles */
+.container img {
+    max-width: 100%;
+    height: auto;
+    display: block;
+    margin: 20px auto;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+    transition: transform 0.3s ease;
+}
+
+.container img:hover {
+    transform: scale(1.1);
+}
+
+/* Animation for Container Glow */
+@keyframes container-glow {
+    0% {
+        box-shadow: 0 0 30px rgba(0, 123, 255, 0.5);
+    }
+
+    100% {
+        box-shadow: 0 0 30px rgba(0, 123, 255, 0.8);
+    }
+}
+
+/* Heading Styles */
+h1 {
+    text-align: center;
+    color: #fff;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+    animation: heading-glow 2s infinite alternate;
+}
+
+h2 {
+    text-align: center;
+    color: #007bff;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+    animation: heading-glow 2s infinite alternate;
+}
+
+/* Animation for Heading Glow */
+@keyframes heading-glow {
+    0% {
+        text-shadow: 2px 2px 4px rgba(0, 123, 255, 0.5);
+    }
+
+    100% {
+        text-shadow: 2px 2px 4px rgba(0, 123, 255, 0.8);
+    }
+}
+
+nav {
+    background-color: #333;
+    /* Dark gray background */
+    padding: 10px 20px;
+    /* Padding for spacing */
+    position: fixed;
+    /* Fixed position at the top */
+    width: 100%;
+    /* Full-width navbar */
+    top: 0;
+    /* Position at the top of the page */
+    z-index: 1000;
+    /* Ensure navbar is on top */
+}
+
+/* Navigation list styles */
+nav ul {
+    list-style: none;
+    /* Remove default list bullets */
+    margin: 0;
+    /* Remove default margins */
+    padding: 0;
+    /* Remove default padding */
+    display: flex;
+    /* Use flexbox to align items */
+    justify-content: center;
+    /* Center items horizontally */
+}
+
+/* Navigation links styles */
+nav ul li {
+    margin-right: 20px;
+    /* Space between list items */
+}
+
+nav ul li:last-child {
+    margin-right: 0;
+    /* Remove margin from last item */
+}
+
+nav ul li a {
+    color: #fff;
+    /* White text color */
+    text-decoration: none;
+    /* Remove text underline */
+    font-weight: bold;
+    /* Bold text */
+    font-size: 16px;
+    /* Text size */
+    padding: 10px 15px;
+    /* Padding for spacing */
+    border-radius: 5px;
+    /* Rounded corners */
+    transition: background-color 0.3s, color 0.3s;
+    /* Smooth transition */
+}
+
+/* Navigation links hover effect */
+nav ul li a:hover {
+    background-color: #007BFF;
+    /* Blue background color on hover */
+    color: #fff;
+    /* White text color on hover */
+}

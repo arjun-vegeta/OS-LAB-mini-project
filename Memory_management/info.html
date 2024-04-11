@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Memory Allocation Algorithms</title>
+    <link rel="stylesheet" href="inf.css">
+</head>
+
+<body>
+    <nav class="navbar">
+        <ul>
+
+            <li><a href="mft.html" id="first-fit">MFT</a></li>
+            <li><a href="mvt.html" id="worst-fit">MVT</a></li>
+            <li><a href="javascript:history.back()">Back</a></li>
+        </ul>
+    </nav>
+
+    <div class="container">
+        <h1>Memory Fragment Allocation Algorithms</h1>
+
+        <section id="first-fit">
+            <h2>MFT(Multi-programming with fixed partitioning)</h2>
+            <p>
+                Multi-programming with fixed partitioning is a contiguous memory management technique 
+                in which the main memory is divided into fixed sized partitions which can be of equal 
+                or unequal size. Whenever we have to allocate a process memory then a free partition that 
+                is big enough to hold the process is found. Then the memory is allocated to the process.
+                If there is no free space available then the process waits in the queue to be allocated memory.
+                It is one of the most oldest memory management technique which is easy to implement
+            </p>
+            <img src="mftt.jpg" alt="MFT Algorithm">
+        
+        </section>
+
+        <section id="worst-fit">
+            <h2>MVT(Multi-programming with variable partitions)</h2>
+            <p>
+                Multi-programming with variable partitioning is a contiguous memory management technique in which the main memory is not divided into partitions and the process is allocated a chunk of free memory that is big enough for it to fit. The space which is left is considered as the free space which can be further used by other processes. It also provides the concept of compaction. In compaction the spaces that are free and the spaces which not allocated to the process are combined and single large memory space is made. 
+
+
+            </p>
+            <img src="mvtt.png" alt="MVT Algorithm">
+            
+        </section>
+        
+    </div>
+</body>
+
+</html>

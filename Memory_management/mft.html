@@ -1,0 +1,152 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>MFT</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
+    <style>
+      body {
+        background-color: #121212;
+        color: #f0f0f0;
+      }
+      .btn-primary {
+        background-color: #007bff;
+        border-color: #007bff;
+      }
+      .btn-primary:hover {
+        background-color: #0069d9;
+        border-color: #0062cc;
+      }
+      .table {
+        color: #f0f0f0;
+      }
+      .table-hover tbody tr:hover {
+        background-color: #343a40;
+      }
+      .thead-dark {
+        background-color: #212529;
+      }
+      #myCanvas {
+        border: 2px solid #007bff;
+      }
+      nav {
+    background-color: #333;
+    /* Dark gray background */
+    padding: 10px 20px;
+    /* Padding for spacing */
+    position: fixed;
+    /* Fixed position at the top */
+    width: 100%;
+    /* Full-width navbar */
+    top: 0;
+    /* Position at the top of the page */
+    z-index: 1000;
+    /* Ensure navbar is on top */
+}
+
+/* Navigation list styles */
+nav ul {
+    list-style: none;
+    /* Remove default list bullets */
+    margin: 0;
+    /* Remove default margins */
+    padding: 0;
+    /* Remove default padding */
+    display: flex;
+    /* Use flexbox to align items */
+    justify-content: center;
+    /* Center items horizontally */
+}
+
+/* Navigation links styles */
+nav ul li {
+    margin-right: 20px;
+    /* Space between list items */
+}
+
+nav ul li:last-child {
+    margin-right: 0;
+    /* Remove margin from last item */
+}
+
+nav ul li a {
+    color: #fff;
+    /* White text color */
+    text-decoration: none;
+    /* Remove text underline */
+    font-weight: bold;
+    /* Bold text */
+    font-size: 16px;
+    /* Text size */
+    padding: 10px 15px;
+    /* Padding for spacing */
+    border-radius: 5px;
+    /* Rounded corners */
+    transition: background-color 0.3s, color 0.3s;
+    /* Smooth transition */
+}
+
+/* Navigation links hover effect */
+nav ul li a:hover {
+    background-color: #007BFF;
+    /* Blue background color on hover */
+    color: #fff;
+    /* White text color on hover */
+}
+    </style>
+  </head>
+  <body>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <nav class="navbar">
+        <ul>
+
+            <li><a href="mft.html" id="first-fit">MFT</a></li>
+            <li><a href="mvt.html" id="worst-fit">MVT</a></li>
+            <li><a href="javascript:history.back()">Back</a></li>
+        </ul>
+    </nav>
+    <main>
+      <h1 class="text-center">MFT (Multiprogramming with a Fixed Number of Tasks)</h1>
+      <div class="container">
+        <div class="row mb-3">
+          <div class="col-12">
+            <div class="form-group">
+              <label></label>
+              <h5>Enter size of memory</h5>
+              <input type="text" class="form-control" id="MemorySize" placeholder=" ">
+              <h5>Enter number of partitions</h5>
+              <input type="text" class="form-control" id="noOfPartitions" placeholder=" ">
+            </div>
+            <button type="submit" class="btn btn-primary mt-3" id="noOfPartitionsBtn">Next</button>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-4">
+            <div id="canvas" class="ml-5 mt-5">
+            </div>
+          </div>
+          <div class="col-md-8">
+            <div class="row">
+              <div class="col-md-6">
+                <div style="padding-bottom:40px">
+                  <div id="processControllerBtns"></div>
+                  <div class="m-2" id="processDetailsForm"></div>
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div id="legend" class="ml-5 mt-5"></div>
+                <div id="input-q-table" style="padding-bottom:40px"></div>
+                <div id="fragmentation"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+    <footer>
+    </footer>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
+    <script src="mft.js"></script>
+  </body>
+</html>
