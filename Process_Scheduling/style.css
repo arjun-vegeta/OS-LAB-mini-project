@@ -1,0 +1,131 @@
+body{
+    font-family: tahoma;
+    color: #FFFFFF;
+    background: #0d1521;
+}
+
+#choice{
+    position: relative;
+    transform: translateY(30%);
+    width: 95%;
+    background: #090d13;
+    margin: 0 auto;
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+button{
+    padding: 20px;
+    width: 30%;
+    float: left;
+    background: #23282e;
+    border: 0;
+    box-sizing: border-box;
+    color: #fff;
+    cursor: pointer;
+    font-size: 20px;
+}
+
+#ulchoice{
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
+a{
+    text-decoration: none;
+    color: #FFF;
+}
+a:hover{
+    text-decoration: none;
+    color: #FFF;
+}
+
+#lichoice{
+    border-style: solid;
+    border-width: 1px;
+    border-color: #0d1521;
+    width: 100%;
+    padding: 20px;
+    box-sizing: border-box;
+    font-family: arial;
+    font-size: 20px;
+    cursor: pointer;
+    letter-spacing: 1px;
+    text-align: center;
+}
+
+#lichoice:hover{
+    text-align: center;
+    background: rgb(0,0,0);
+}
+h1{
+    position: relative;
+    margin: 0 auto;
+    width: 95%;
+    padding: 20px;
+    color: rgb(255, 255, 255);
+    text-align: center;
+    background: #090d13;
+    font-style: oblique;
+}
+
+#wikichoice{
+    border-style: solid;
+    border-width: 1px;
+    border-color: #0d1521;
+    width: 100%;
+    padding: 20px;
+    box-sizing: border-box;
+    font-family: arial;
+    font-size: 20px;
+    cursor: pointer;
+    letter-spacing: 1px;
+    text-align: center;
+    background: #130909;
+}
+#wikichoice:hover{
+    text-align: center;
+    background: rgb(0,0,0);
+}
+nav {
+    background-color: #333; /* Dark gray background */
+    padding: 10px 20px; /* Padding for spacing */
+    position: fixed; /* Fixed position at the top */
+    width: 100%; /* Full-width navbar */
+    top: 0; /* Position at the top of the page */
+    z-index: 1000; /* Ensure navbar is on top */
+}
+
+/* Navigation list styles */
+nav ul {
+    list-style: none; /* Remove default list bullets */
+    margin: 0; /* Remove default margins */
+    padding: 0; /* Remove default padding */
+    display: flex; /* Use flexbox to align items */
+    justify-content: center; /* Center items horizontally */
+}
+
+/* Navigation links styles */
+nav ul li {
+    margin-right: 20px; /* Space between list items */
+}
+
+nav ul li:last-child {
+    margin-right: 0; /* Remove margin from last item */
+}
+
+nav ul li a {
+    color: #fff; /* White text color */
+    text-decoration: none; /* Remove text underline */
+    font-weight: bold; /* Bold text */
+    font-size: 16px; /* Text size */
+    padding: 10px 15px; /* Padding for spacing */
+    border-radius: 5px; /* Rounded corners */
+    transition: background-color 0.3s, color 0.3s; /* Smooth transition */
+}
+
+/* Navigation links hover effect */
+nav ul li a:hover {
+    background-color: #007BFF; /* Blue background color on hover */
+    color: #fff; /* White text color on hover */
+}
