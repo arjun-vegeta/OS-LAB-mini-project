@@ -7,6 +7,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Deadlock Detection and Bankers Algorithm</title>
     <link rel="icon" href="https://sme.nitk.ac.in/assets/images/1.png" type="image/png">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/vis/4.21.0/vis-network.min.css" rel="stylesheet" type="text/css" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vis/4.21.0/vis-network.min.js"></script>
     <style>
         /* Black and blue theme styling */
         body {
@@ -110,6 +112,13 @@
                 width: 500px;
             }
         }
+
+        /* Graph styling */
+        #resourceAllocationGraph {
+            height: 400px;
+            border: 1px solid #ccc;
+            margin-top: 20px;
+        }
     </style>
 </head>
 
@@ -117,7 +126,7 @@
     <a href="https://arjun-vegeta.github.io/OS-LAB-mini-project/simulator" style="position: absolute; top: 20px; left: 20px; text-decoration: none; color: #000;">
         <!-- SVG for back button -->
         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M19 12H6.414l3.293-3.293a1 1 0 0 0-1.414-1.414l-5 5a1 1 0 0 0 0 1.414l5 5a1 1 0 0 0 1.414-1.414L6.414 14H19a1 1 0 0 0 0-2z"/>
+            <path d="M19 12H6.414l3.293-3.293a1 1 0 0 0-1.414-1.414l-5 5a1 1 0 0 0 0 1.414l5 5a1 1 0 0 0 1.414-1.414L6.414 14H19a1 1 0 0 0 0-2z" />
         </svg>
     </a>
 
@@ -147,6 +156,9 @@
         <div id="available"></div>
 
         <button onclick="checkDeadlock()">Check Deadlock</button>
+
+        <h3>Resource Allocation Graph:</h3>
+        <div id="resourceAllocationGraph"></div>
 
         <div id="result"></div>
     </div>
@@ -207,6 +219,8 @@
             } else {
                 resultDiv.innerHTML = 'Deadlock detected. No safe sequence.';
             }
+
+            createResourceAllocationGraph(allocation, matrixData, processes, resources);
         }
 
         function findSafeSequence(allocation, matrix, available, matrixType) {
@@ -248,6 +262,68 @@
             } else {
                 return [];
             }
+        }
+
+        function createResourceAllocationGraph(allocation, request, processes, resources) {
+            var nodes = [];
+            var edges = [];
+
+            // Add process nodes
+            for (var i = 0; i < processes; i++) {
+                nodes.push({ id: `P${i}`, label: `P${i}`, shape: 'box', color: '#4caf50' });
+            }
+
+            // Add resource nodes
+            for (var j = 0; j < resources; j++) {
+                nodes.push({ id: `R${j}`, label: `R${j}`, shape: 'ellipse', color: '#f44336' });
+            }
+
+            // Add edges from processes to resources based on request matrix
+            for (var i = 0; i < processes; i++) {
+                for (var j = 0; j < resources; j++) {
+                    if (request[i][j] > 0) {
+                        edges.push({ from: `P${i}`, to: `R${j}`, arrows: 'to', label: `${request[i][j]}` });
+                    }
+                }
+            }
+
+            // Add edges from resources to processes based on allocation matrix
+            for (var j = 0; j < resources; j++) {
+                for (var i = 0; i < processes; i++) {
+                    if (allocation[i][j] > 0) {
+                        edges.push({ from: `R${j}`, to: `P${i}`, arrows: 'to', label: `${allocation[i][j]}` });
+                    }
+                }
+            }
+
+            // Create a network
+            var container = document.getElementById('resourceAllocationGraph');
+            var data = {
+                nodes: nodes,
+                edges: edges
+            };
+            var options = {
+                edges: {
+                    smooth: true,
+                    font: {
+                        size: 14,
+                        color: 'white',
+                    },
+                    color: {
+                        color: 'white',
+                    },
+                },
+                nodes: {
+                    font: {
+                        size: 14,
+                        color: 'white',
+                    },
+                },
+                physics: {
+                    enabled: false
+                }
+            };
+            var network = new vis.Network(container, data, options);
         }
 
         function updateMatrixInputs() {
